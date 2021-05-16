@@ -1,0 +1,35 @@
+<html>
+    <head>
+      
+      {% if title %}
+          <title>{{ title }} - IP</title>
+      {% else %}
+          <title>IP_VERSION_a</title>
+      {% endif %}
+
+    </head>
+    <body>
+            <!-- The navigation header -->
+        <div> IP: 
+            <a href= {{ url_for("index") }} > Home  </a>
+            <a href= {{ url_for("login") }} > Login </a>
+            <a href= "/dummy" > Dummy_test </a>
+
+        </div>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul> 
+            {% for msg in messages %}
+            <li> {{msg}} </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+            <!-- The crap that follows, login, etc-->
+        {% block content %}
+        {% endblock %}
+    
+    </body>
+
+</html>
