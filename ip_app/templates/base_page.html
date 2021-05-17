@@ -35,5 +35,9 @@
         {% endblock %}
     
     </body>
-
+    {% if current_user.is_anonymous %}
+        <p> New User?
+        <a href= {{ url_for("register") }} > Register </a>
+        </p>
+    {% endif %}
 </html>

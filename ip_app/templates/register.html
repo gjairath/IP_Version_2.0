@@ -14,9 +14,10 @@
 
         </p>
         <p>
-            {{ form.username.label }} <br>
-            {{ form.username(size=32) }}
-            {% for error in form.username.errors %}
+            {{ form.email.label }} <br>
+            {{ form.email(size=32) }}
+            <!-- Validators should accompany errors hopefully. I mean its better if there are no errors lol. -->
+            {% for error in form.email.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
 
@@ -27,6 +28,21 @@
             {% for error in form.password.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
+        </p>
+        <p>
+            {{ form.confirm.label }} <br>
+            {{ form.confirm(size=32) }}
+            {% for error in form.confirm.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.accept_tos() }} 
+            {{ form.accept_tos.label }}
+            {% for error in form.accept_tos.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        
         </p>
         <p>{{ form.submit() }}</p>
     </form>
