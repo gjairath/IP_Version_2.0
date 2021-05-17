@@ -13,9 +13,14 @@ from ip_app.config import Config
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_login import LoginManager
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+login = LoginManager(app)
+# Set login view to make a wall user shall not pass.
+login.login_view = 'login'
 
 
 db = SQLAlchemy(app)

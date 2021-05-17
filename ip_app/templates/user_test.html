@@ -5,17 +5,25 @@
 
   <div class="container">
   <h1>{{title}}</h1>
-    {% for user in users %}
+  
+  {% for user in users %}
     <ul id="user.username">
+      <li>
+        <span class="field-name">ID:</span>
+        <span class="field-value">{{ user.id }}</span>
+      </li>
       <li>
         <span class="field-name">User:</span>
         <span class="field-value">{{ user.username }}</span>
       </li>
+      
       <li>
         <span class="field-name">Email:</span>
         <span class="field-value">{{ user.email }}</span>
       </li>
+
     </ul>
+    
     {% endfor %}
   </div>
 
