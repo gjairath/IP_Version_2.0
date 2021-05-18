@@ -15,7 +15,7 @@ from flask import request, render_template, make_response, redirect, flash, url_
 from datetime import datetime as dt
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
-
+from datetime import datetime
 
 
 @app.route('/')
@@ -83,9 +83,28 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+
+
+
+# All none login driven cute stuff is below.
+    # /user/admin => <admin>
+@app.route("/user/<username>")
+@login_required
+def profile(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template('user_profile.html', user=user)
+
+@app.before_request
+def before_request():
+    if (current_user.is_authenticated):
+        current_user.profile_last_login = datetime.utcnow()
+        db.session.commit()
+
+
 @app.route('/dummy', methods = ["GET"])
 @login_required
 def show_users():
     user_list = User.query.all()
 
     return render_template("user_test.html", title = "Show", users = user_list)
+

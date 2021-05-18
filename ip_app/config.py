@@ -5,8 +5,12 @@ Created on Sun May 16 03:02:33 2021
 @author: garvi
 """
 
-
+# Packages
+import logging
+from logging.handlers import SMTPHandler
 import os
+
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):

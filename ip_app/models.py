@@ -12,6 +12,8 @@ from ip_app import login
 # Packages
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from hashlib import md5
+from datetime import datetime
 
 class User(UserMixin, db.Model):
     
@@ -24,6 +26,13 @@ class User(UserMixin, db.Model):
                       index=True, 
                       unique=True)
     password_hash = db.Column(db.String(128))
+    profile_last_login = db.Column(db.DateTime, default=datetime.utcnow)
+
+
+    def avatar(self, size):
+        email_req = self.email.lower().encode('utf-8')
+        digest = md5(email_req).hexdigest()
+        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
 
     # Generic stuff to make my life easier with logins.
     def set_password(self, password):

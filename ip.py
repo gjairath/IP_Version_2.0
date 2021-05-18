@@ -7,7 +7,7 @@ Created on Sun May 16 02:40:36 2021
 
 
 from ip_app import app
-from ip_app import app, db
+from ip_app import app, db, error
 from ip_app.models import User
 
 
