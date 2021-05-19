@@ -26,6 +26,46 @@ from datetime import datetime
 def index():
     return render_template('test69.html', user=current_user)
 
+@app.route("/user/<username>")
+@login_required
+def profile(username):
+    '''
+    Profile, at the dashboard as a "dropdown", login required.
+    '''
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template('user_profile.html', user=user)
+
+@app.route('/dummy', methods = ["GET"])
+@login_required
+def show_users():
+    '''
+    Show all users, at the dashboard, login required.
+    '''
+    user_list = User.query.all()
+    # When this html file extends my base page, the base page has a var for user that isn't importer
+    return render_template("user_test.html", users = user_list, user = current_user)
+
+@app.route('/dashboard')
+def show_dashboard():
+    '''
+    Dashboard, at the dasboard, login required.
+    '''
+    return render_template("dashboard.html", user=current_user)
+
+@app.before_request
+def before_request():
+    '''
+    Tracks the last time user logged on.
+    before_request is a flask thing that triggers before views. Convinent. [is that how you spell it?]
+    '''
+    if (current_user.is_authenticated):
+        current_user.profile_last_login = datetime.utcnow()
+        db.session.commit()
+        
+        
+'''
+    Login functionality is below, Register, Login, Logout.
+'''
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     registeration_form = Register()
@@ -84,33 +124,3 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
-
-
-# All non login driven cute stuff is below.
-    # /user/admin => <admin>
-@app.route("/user/<username>")
-@login_required
-def profile(username):
-    user = User.query.filter_by(username=username).first_or_404()
-    return render_template('user_profile.html', user=user)
-
-@app.before_request
-def before_request():
-    if (current_user.is_authenticated):
-        current_user.profile_last_login = datetime.utcnow()
-        db.session.commit()
-
-
-@app.route('/dummy', methods = ["GET"])
-@login_required
-def show_users():
-    user_list = User.query.all()
-
-    # When this html file extends my base page, the base page has a var for user that isn't importer
-    return render_template("user_test.html", users = user_list, user = current_user)
-
-
-@app.route('/Swag-69', methods = ["GET"])
-@login_required
-def test_new_index():
-    return render_template("test69.html")
