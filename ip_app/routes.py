@@ -9,6 +9,8 @@ Created on Sun May 16 02:39:37 2021
 from ip_app import app
 from ip_app.forms import Login, Register
 from ip_app.models import db, User
+from ip_app.forms import ResetPasswordRequestForm
+#from ip_app.forgot_email import send_password_reset_email
 
 # Packages
 from flask import request, render_template, make_response, redirect, flash, url_for
@@ -22,7 +24,7 @@ from datetime import datetime
 @app.route('/index')
 @login_required
 def index():
-    return render_template('index.html', title='Home', user=current_user)
+    return render_template('test69.html', user=current_user)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -84,9 +86,7 @@ def logout():
     return redirect(url_for('index'))
 
 
-
-
-# All none login driven cute stuff is below.
+# All non login driven cute stuff is below.
     # /user/admin => <admin>
 @app.route("/user/<username>")
 @login_required
@@ -106,5 +106,11 @@ def before_request():
 def show_users():
     user_list = User.query.all()
 
-    return render_template("user_test.html", title = "Show", users = user_list)
+    # When this html file extends my base page, the base page has a var for user that isn't importer
+    return render_template("user_test.html", users = user_list, user = current_user)
 
+
+@app.route('/Swag-69', methods = ["GET"])
+@login_required
+def test_new_index():
+    return render_template("test69.html")
