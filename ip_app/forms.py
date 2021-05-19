@@ -13,15 +13,23 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField, valid
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 
 class Login(FlaskForm):
+    '''
+    Login form, driven by base_page.html
+    '''
     username = StringField('Username', [validators.DataRequired()])
     password = PasswordField('Password', [validators.DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
 
 class Register(FlaskForm):
+    '''
+    Registeration form, driven by base_page.html
+    '''
     # Taken from the flask docs
     username = StringField('Username', [validators.Length(min=4, max=25), validators.DataRequired()])
-    email = StringField('Email Address', [validators.Length(min=6, max=35), validators.DataRequired()])
+    
+    # Email() validates this field for me
+    email = StringField('Email Address', [validators.Length(min=6, max=35), validators.DataRequired(), Email()])
     password = PasswordField('New Password', [
         validators.DataRequired(),
         validators.EqualTo('confirm', message='Passwords must match')
@@ -30,13 +38,18 @@ class Register(FlaskForm):
     accept_tos = BooleanField('I accept the TOS', [validators.DataRequired()])
     submit = SubmitField('Sign In')
     
-    
     def validate_username(self, username):
+        '''
+        validate_X is a flask wtforms thing, allows for additional checking (autoinvoked).
+        '''
         user = User.query.filter_by(username=username.data).first()
         if user is not None:
             raise ValidationError('Please use a different username.')
 
     def validate_email(self, email):
+        '''
+        validate_X is a flask wtforms thing, allows for additional checking (autoinvoked).
+        '''
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
@@ -44,4 +57,3 @@ class Register(FlaskForm):
 class ResetPasswordRequestForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Request Password Reset')
-

@@ -11,7 +11,7 @@ from ip_app import app, db, error
 from ip_app.models import User
 
 
-
+# Allows for flask shell, custom terminal with these variables "Set".
 @app.shell_context_processor
 def make_shell_context():
     return {'db': db, 'User': User}
