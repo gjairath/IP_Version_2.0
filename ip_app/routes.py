@@ -148,6 +148,7 @@ def delete_user(username):
 
     desired_user_obj = uutil.find_user_obj_by_name(username)
     
+    
     flash("{} Has been deleted admin".format(desired_user_obj.username), category="dashboard")
     db.session.delete(desired_user_obj)
     db.session.commit()

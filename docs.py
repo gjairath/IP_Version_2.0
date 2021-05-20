@@ -19,7 +19,8 @@ ip_app/
     error.py; 404/500 errors.
     forms.py; the bridge that passes data to the routes.py file, to view the ip_app/templates/
     models.py; hosts the database with flask-sql that can be used to interact with OOP.
-    routes.py; 
+    routes.py;
+    uutil.py; user-utilty file for models.py
 ip_app/static
     files that use url_for but have no route
 ip_app/templates
