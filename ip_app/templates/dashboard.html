@@ -5,16 +5,33 @@
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-2">
     <div class="btn-toolbar dropdown">
-        <button class="btn btn-dark btn-sm me-2 dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="fas fa-plus me-2"></span>New Task
+        <button class="btn btn-dark btn-sm me-2 dropdown-toggle"  id="dropdownMenuButton"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="fas fa-plus me-2"></span>New Project
         </button>
-        <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-0">
-            <a class="dropdown-item fw-normal rounded-top" href="#"><span class="fas fa-tasks"></span>New Task</a>
-            <a class="dropdown-item fw-normal" href="#"><span class="fas fa-cloud-upload-alt"></span>Upload Files</a>
-            <a class="dropdown-item fw-normal" href="#"><span class="fas fa-user-shield"></span>Preview Security</a>
+        <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-0" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item fw-normal rounded-top" href="{{ url_for('new_project') }}"><span class="fas fa-tasks"></span>New Task</a>
             <div role="separator" class="dropdown-divider my-0"></div>
-            <a class="dropdown-item fw-normal rounded-bottom" href="#"><span class="fas fa-rocket text-danger"></span>Upgrade to Pro</a>
+            <a class="dropdown-item fw-normal rounded-bottom" href="#"><span class="fas fa-rocket text-danger"></span>FUTURE DATA SHIT idk like graphs?</a>
         </div>
     </div>
+    </div>
+
+<!-- When this page is first loaded, no projects may exist, ensure there is no 500 response with if -->
+{% if project_list %}
+
+<!-- run simple loop, make cards-->
+{% for project in project_list %}
+<div class="card">
+      <h5 class="card-header">Projects</h5>
+  <div class="card-body">
+      <h5 class="card-title"> {{ project.project_name }}</h5>
+      <p class="card-text"> Description: {{ project.project_desc }} </p>
+      <p class="card-text text-success">Num Members: {{ project.num_members }} , Num Tasks: {{ project.num_tasks }} </p>
+  </div>
+    </div>
+    
+{% endfor %}
+    
+{% endif %}
 
 {% endblock %}

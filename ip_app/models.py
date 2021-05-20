@@ -58,6 +58,24 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
+
+
+class Project(db.Model):
+    id = db.Column(db.Integer, 
+                    primary_key=True)
+    project_name = db.Column(db.String(64), 
+                         index=True, 
+                         unique=True)
+    project_desc = db.Column(db.String(120))
+    num_members = db.Column(db.Integer)
+    num_tasks = db.Column(db.Integer)
+    project_last_changed = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<User {}>'.format(self.username)
+
+
+
 # For the flask-login user-session.
 @login.user_loader
 def load_user(id):

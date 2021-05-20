@@ -9,7 +9,7 @@ from ip_app.models import User
 
 # Packages
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, validators
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, TextAreaField, IntegerField, validators
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 
 class Login(FlaskForm):
@@ -54,6 +54,10 @@ class Register(FlaskForm):
         if user is not None:
             raise ValidationError('Please use a different email address.')
             
-class ResetPasswordRequestForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    submit = SubmitField('Request Password Reset')
+class NewProjectForm(FlaskForm):
+    project_name = StringField('Project Name', [validators.DataRequired()])
+    project_desc = TextAreaField('Project Description', [validators.DataRequired()])
+    num_members = IntegerField('Number of Members', [validators.DataRequired()])
+    num_tasks = IntegerField('Number of Tasks', [validators.DataRequired()])
+    
+    submit = SubmitField('Create Project')

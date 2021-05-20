@@ -8,8 +8,8 @@ Created on Sun May 16 02:39:37 2021
 # Files
 from ip_app import app
 from ip_app.forms import Login, Register
-from ip_app.models import db, User
-from ip_app.forms import ResetPasswordRequestForm
+from ip_app.models import db, User, Project
+from ip_app.forms import NewProjectForm
 import ip_app.uutil as uutil
 #from ip_app.forgot_email import send_password_reset_email
 
@@ -28,7 +28,8 @@ def index():
     '''
     Show-Dashboard, at the dasboard, login required.
     '''
-    return render_template('dashboard.html', user=current_user)
+    project_list = Project.query.all() or None
+    return render_template('dashboard.html', user=current_user, project_list=project_list)
 
 @app.route("/user/<username>")
 @login_required
@@ -48,6 +49,48 @@ def show_users():
     user_list = User.query.all()
     # When this html file extends my base page, the base page has a var for user that isn't importer
     return render_template("user_test.html", users = user_list, user = current_user)
+
+
+@app.route('/new_project', methods = ["GET", "POST"])
+@login_required
+def new_project():
+    '''
+    Make a new project when the user clicks "New project" on the sliced-view plane.
+    '''
+    
+    # The Project() table holds all the relevant cols, that can be interacted with as an OOP object.
+    
+    new_project_form = NewProjectForm()
+    
+    if (new_project_form.validate_on_submit()):
+        # Grab already validated data from the form
+        project_name = new_project_form.project_name.data        
+        project_desc = new_project_form.project_desc.data        
+        num_members = new_project_form.num_members.data        
+        num_tasks = new_project_form.num_tasks.data        
+
+        existing_project = Project.query.filter(Project.project_name == project_name).first()
+        
+        # If project exists already.
+        if (existing_project is not None):
+            # User already exists.
+            flash("This project already exists!")
+            # Refresh the page
+            return redirect(url_for("new_project"))
+                
+        # Make a user object to add to the DB.
+        new_project = Project(project_name = project_name,
+                              project_desc = project_desc,
+                              num_members = num_members,
+                              num_tasks = num_tasks)        
+        # Add the user
+        db.session.add(new_project)
+        flash("{} has been created!".format(project_name))
+        # Commit the changes.
+        db.session.commit()
+        return redirect(url_for("index"))
+    return render_template("new_project.html", form = new_project_form)
+
 
 @app.before_request
 def before_request():
