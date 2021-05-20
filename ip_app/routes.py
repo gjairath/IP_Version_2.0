@@ -91,6 +91,26 @@ def new_project():
         return redirect(url_for("index"))
     return render_template("new_project.html", form = new_project_form)
 
+@app.route('/delete_project/<project_name>')
+@login_required
+def delete_project(project_name):
+    '''
+    Delete project based on project-name, since objects cant be passed back from HTML, find it with uutil.
+    I regret naming it uutil this is what I get for being clever.
+    
+    Params
+        project-name: name of the project being considered for deletion, table has unique-value so just find first.
+    '''
+    # The template cannot return the class object it returns class <Str> instead.
+    # So find the user related object first via a query.
+
+    desired_project_obj = uutil.find_project_obj_by_name(project_name)
+    
+    flash("{} Has been deleted".format(desired_project_obj.project_name), category="dashboard")
+    db.session.delete(desired_project_obj)
+    db.session.commit()
+    return redirect(url_for("index"))
+    
 
 @app.before_request
 def before_request():
