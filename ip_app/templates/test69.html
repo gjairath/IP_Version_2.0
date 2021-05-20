@@ -46,6 +46,8 @@
         <div class="dropdown">
             <button class="btn btn-icon-only nav-link dropdown-toggle pt-1 px-0" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
                 <img class="user-avatar md-avatar rounded-circle" alt="Image placeholder" src="{{user.avatar(36)}}">
+                            {{user.username}}
+
             </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a class="dropdown-item" href="{{url_for('profile', username=user.username)}}">Profile</a></li>
