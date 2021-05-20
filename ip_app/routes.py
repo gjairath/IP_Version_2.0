@@ -10,6 +10,7 @@ from ip_app import app
 from ip_app.forms import Login, Register
 from ip_app.models import db, User
 from ip_app.forms import ResetPasswordRequestForm
+import ip_app.uutil as uutil
 #from ip_app.forgot_email import send_password_reset_email
 
 # Packages
@@ -21,10 +22,13 @@ from datetime import datetime
 
 
 @app.route('/')
-@app.route('/index')
+@app.route('/dashboard')
 @login_required
 def index():
-    return render_template('test69.html', user=current_user)
+    '''
+    Show-Dashboard, at the dasboard, login required.
+    '''
+    return render_template('dashboard.html', user=current_user)
 
 @app.route("/user/<username>")
 @login_required
@@ -45,13 +49,6 @@ def show_users():
     # When this html file extends my base page, the base page has a var for user that isn't importer
     return render_template("user_test.html", users = user_list, user = current_user)
 
-@app.route('/dashboard')
-def show_dashboard():
-    '''
-    Dashboard, at the dasboard, login required.
-    '''
-    return render_template("dashboard.html", user=current_user)
-
 @app.before_request
 def before_request():
     '''
@@ -63,9 +60,15 @@ def before_request():
         db.session.commit()
         
         
-'''
-    Login functionality is below, Register, Login, Logout.
-'''
+    '''
+    Login functionality is below, Register, Login, Logout and adminstrative tools.
+    -----------------------------------------------------------------------------------------------
+    -----------------------------------------------------------------------------------------------
+    '''
+
+
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     registeration_form = Register()
@@ -116,7 +119,7 @@ def login():
         else:
             # Wrong data. Either user is not found or hash didn't check out.
             flash("Incorrect Username or Password")
-            return redirect("/login")
+            return redirect(url_for("login"))
             
     return render_template('login.html', title='Sign In', form=login_form)
 
@@ -124,3 +127,29 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+
+
+@app.route('/delete/<username>')
+@login_required
+def delete_user(username):
+    '''
+    Params:
+        user: object from models.py for the User db.
+    Desc:
+        Deletes the user based on given username.
+        Only accessible after login for username == "admin"
+        The conditional check above is handeled by the view template.
+    '''
+    
+    # The template cannot return the class object it returns class <Str> instead.
+    # So find the user related object first via a query.
+
+    desired_user_obj = uutil.find_user_obj_by_name(username)
+    
+    flash("{} Has been deleted admin".format(desired_user_obj.username), category="dashboard")
+    db.session.delete(desired_user_obj)
+    db.session.commit()
+    return redirect(url_for("index"))
+    

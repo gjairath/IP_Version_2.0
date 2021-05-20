@@ -52,7 +52,7 @@
               <div class="position-sticky pt-md-5">
                   <ul class="nav flex-column">
                       <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url_for('show_dashboard') }}">
+                        <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">
                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                           <span class="ml-2">Dashboard</span>
                         </a>
@@ -71,13 +71,25 @@
           <main class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">          
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{url_for('index')}}">Home</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Overview</li>
                   </ol>
                 </nav>
                 
-        <!-- Content in the sliced viewport -->
-
+    <!-- Content in the sliced viewport on the right of side nav and below the top nav-->
+            <!-- Flashed messages only for the main dashboard.-->
+            <div class="container">
+                {% with messages = get_flashed_messages(category_filter=["dashboard"]) %}
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-info" role="alert">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+                {% endwith %}
+        
+                {# application content needs to be provided in the app_content block #}
+                {% block app_content %}{% endblock %}
+            </div>
             {% block content %}
             {% endblock %}
 

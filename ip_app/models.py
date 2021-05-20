@@ -58,7 +58,6 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
-
 # For the flask-login user-session.
 @login.user_loader
 def load_user(id):
