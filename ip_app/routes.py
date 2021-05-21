@@ -94,6 +94,16 @@ def new_project():
         return redirect(url_for("index"))
     return render_template("new_project.html", form = new_project_form)
 
+@app.route('/dashboard/<project_name>')
+def show_tasks_for_project(project_name):
+    '''
+    Show the new plane on the dashboard once you click a project.
+    
+    Params:
+        projectname: name of project clicked.
+    '''
+    return render_template("dashboard_project_in.html", user=current_user)
+
 @app.route('/delete_project/<project_name>')
 @login_required
 def delete_project(project_name):
