@@ -28,12 +28,15 @@ class User(UserMixin, db.Model):
                       unique=True)
     password_hash = db.Column(db.String(128))
     profile_last_login = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # User related project.
+    user_projects = db.relationship('Project', backref='author', lazy='dynamic')
 
 
     def avatar(self, size):
         email_req = self.email.lower().encode('utf-8')
         digest = md5(email_req).hexdigest()
-        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size)
+        return ('https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(digest, size))
 
     # Generic stuff to make my life easier with logins.
     def set_password(self, password):
@@ -71,8 +74,12 @@ class Project(db.Model):
     num_tasks = db.Column(db.Integer)
     project_last_changed = db.Column(db.DateTime, default=datetime.utcnow)
 
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    
+    # author is the field that connects the 1 to many relationship with users and projects.
+
     def __repr__(self):
-        return '<User {}>'.format(self.username)
+        return '<Project {}>'.format(self.project_name)
 
 
 

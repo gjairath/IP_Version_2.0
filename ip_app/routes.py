@@ -29,7 +29,7 @@ def index():
     Show-Dashboard, at the dasboard, login required.
     '''
     project_list = Project.query.all() or None
-    return render_template('dashboard.html', user=current_user, project_list=project_list)
+    return render_template('dashboard.html', user=current_user, project_list=current_user.user_projects)
 
 @app.route("/user/<username>")
 @login_required
@@ -47,8 +47,10 @@ def show_users():
     Show all users, at the dashboard, login required.
     '''
     user_list = User.query.all()
+    project_list = Project.query.all() or None
+
     # When this html file extends my base page, the base page has a var for user that isn't importer
-    return render_template("user_test.html", users = user_list, user = current_user)
+    return render_template("user_test.html", users = user_list, user = current_user, projects=project_list)
 
 
 @app.route('/new_project', methods = ["GET", "POST"])
@@ -82,7 +84,8 @@ def new_project():
         new_project = Project(project_name = project_name,
                               project_desc = project_desc,
                               num_members = num_members,
-                              num_tasks = num_tasks)        
+                              num_tasks = num_tasks,
+                              author = current_user)        
         # Add the user
         db.session.add(new_project)
         flash("{} has been created!".format(project_name))
@@ -106,7 +109,7 @@ def delete_project(project_name):
 
     desired_project_obj = uutil.find_project_obj_by_name(project_name)
     
-    flash("{} Has been deleted".format(desired_project_obj.project_name), category="dashboard")
+    flash("{} has been deleted".format(desired_project_obj.project_name), category="dashboard")
     db.session.delete(desired_project_obj)
     db.session.commit()
     return redirect(url_for("index"))
@@ -212,7 +215,7 @@ def delete_user(username):
     desired_user_obj = uutil.find_user_obj_by_name(username)
     
     
-    flash("{} Has been deleted admin".format(desired_user_obj.username), category="dashboard")
+    flash("{} has been deleted admin".format(desired_user_obj.username), category="dashboard")
     db.session.delete(desired_user_obj)
     db.session.commit()
     return redirect(url_for("index"))
