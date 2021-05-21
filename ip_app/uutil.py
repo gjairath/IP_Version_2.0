@@ -40,15 +40,9 @@ def find_project_obj_by_name(project_name, user):
     
     # One user has many projects, in the future with TEAMS that may change into many-many.
 
-    potential_projects = Project.query.filter(Project.project_name == project_name).all()
-    
-    print (potential_projects)
-    
+    potential_projects = user.user_projects
+        
     for pp in potential_projects:
-        print (pp.author.username)
-        
-        print(user.username)
-        
         if (pp.author.username == user.username):
             return pp
         else:

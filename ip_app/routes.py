@@ -71,8 +71,12 @@ def new_project():
         num_members = new_project_form.num_members.data        
         num_tasks = new_project_form.num_tasks.data        
 
-        all_projects = Project.query.all()
-        this_user_projects = all_projects.author.username == current_user.username
+        this_user_projects = current_user.user_projects
+        
+        for project in this_user_projects:
+            if (project.project_name == project_name):
+                flash ("{} Already Exists!".format(project.project_name))
+                return redirect(url_for("new_project"))
         
         
         
