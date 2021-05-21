@@ -28,10 +28,9 @@
                   onclick = "{if (confirm ( 'Are you sure you want to delete {{user.username}}?')) {this.document.formname.submit(); return true;} return false;}"> 
                   Delete {{user.username}} [Only For Admin] </a> 
               </p>
-              
-              <p> <a href= {{ url_for("profile", username=user.username)  }} > {{user.username}}'s Profile </a> </p>
-              
+                            
               {% endif %}
+              <p> <a href= {{ url_for("profile", username=user.username)  }} > {{user.username}}'s Profile </a> </p>
               
               <!-- A really dumb temporary way to newline. -->
               <p> - </p>
