@@ -30,7 +30,7 @@ class User(UserMixin, db.Model):
     profile_last_login = db.Column(db.DateTime, default=datetime.utcnow)
     
     # User related project.
-    user_projects = db.relationship('Project', backref='author', lazy='dynamic')
+    user_projects = db.relationship('Project', back_populates="author")
 
 
     def avatar(self, size):
@@ -67,14 +67,14 @@ class Project(db.Model):
     id = db.Column(db.Integer, 
                     primary_key=True)
     project_name = db.Column(db.String(64), 
-                         index=True, 
-                         unique=True)
+                         index=True)
     project_desc = db.Column(db.String(120))
     num_members = db.Column(db.Integer)
     num_tasks = db.Column(db.Integer)
     project_last_changed = db.Column(db.DateTime, default=datetime.utcnow)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    author = db.relationship('User', back_populates="user_projects")
     
     # author is the field that connects the 1 to many relationship with users and projects.
 

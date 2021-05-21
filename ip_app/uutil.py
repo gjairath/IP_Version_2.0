@@ -24,15 +24,36 @@ def find_user_obj_by_name(username):
     return User.query.filter(User.username == username).first()
 
 
-def find_project_obj_by_name(project_name):
+def find_project_obj_by_name(project_name, user):
     '''
     Params:
         project_name: string of the name of any projct.
+        user: user object
     Returns:
         Project object associated with it.
     '''
     # This is safe because of the fact that the username entry is Unique.
-    return Project.query.filter(Project.project_name == project_name).first()
+    
+    # User X: 1  User Y: 1
+        # Which "1" to delete
+    # Additional query gets the job done.
+    
+    # One user has many projects, in the future with TEAMS that may change into many-many.
+
+    potential_projects = Project.query.filter(Project.project_name == project_name).all()
+    
+    print (potential_projects)
+    
+    for pp in potential_projects:
+        print (pp.author.username)
+        
+        print(user.username)
+        
+        if (pp.author.username == user.username):
+            return pp
+        else:
+            return None
+    
 
 
 

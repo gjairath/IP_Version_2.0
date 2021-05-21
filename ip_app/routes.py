@@ -71,15 +71,11 @@ def new_project():
         num_members = new_project_form.num_members.data        
         num_tasks = new_project_form.num_tasks.data        
 
-        existing_project = Project.query.filter(Project.project_name == project_name).first()
+        all_projects = Project.query.all()
+        this_user_projects = all_projects.author.username == current_user.username
         
-        # If project exists already.
-        if (existing_project is not None):
-            # User already exists.
-            flash("This project already exists!")
-            # Refresh the page
-            return redirect(url_for("new_project"))
-                
+        
+        
         # Make a user object to add to the DB.
         new_project = Project(project_name = project_name,
                               project_desc = project_desc,
@@ -107,7 +103,10 @@ def delete_project(project_name):
     # The template cannot return the class object it returns class <Str> instead.
     # So find the user related object first via a query.
 
-    desired_project_obj = uutil.find_project_obj_by_name(project_name)
+    desired_project_obj = uutil.find_project_obj_by_name(project_name, current_user)
+    
+    if (desired_project_obj == None):
+        return render_template('404.html'), 404
     
     flash("{} has been deleted".format(desired_project_obj.project_name), category="dashboard")
     db.session.delete(desired_project_obj)
