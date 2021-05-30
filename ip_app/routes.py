@@ -52,7 +52,14 @@ def show_users():
     # When this html file extends my base page, the base page has a var for user that isn't importer
     return render_template("user_test.html", users = user_list, user = current_user, projects=project_list)
 
-
+@app.route('/new_task', methods = ["GET", "POST"])
+@login_required
+def new_task():
+    '''
+    After you navigate into a project, the new task route.
+    '''
+    return redirect(url_for("index"))
+    
 @app.route('/new_project', methods = ["GET", "POST"])
 @login_required
 def new_project():
@@ -102,7 +109,7 @@ def show_tasks_for_project(project_name):
     Params:
         projectname: name of project clicked.
     '''
-    return render_template("dashboard_project_in.html", user=current_user)
+    return render_template("dashboard_project_in.html", user=current_user, project_name=project_name)
 
 @app.route('/delete_project/<project_name>')
 @login_required

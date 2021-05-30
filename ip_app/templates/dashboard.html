@@ -1,12 +1,22 @@
 {% extends "test69.html" %}
 
 {% block content %}
+
+<nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active"><a href="{{url_for('index')}}">Home</a></li>
+          </ol>
+</nav>
+        
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-2">
+
     <div class="btn-toolbar dropdown">
+
         <button class="btn btn-dark btn-sm me-2 dropdown-toggle"  id="dropdownMenuButton"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="fas fa-plus me-2"></span>New Project
         </button>
         <div class="dropdown-menu dashboard-dropdown dropdown-menu-start mt-2 py-0" aria-labelledby="dropdownMenuButton">
+
             <a class="dropdown-item fw-normal rounded-top" href="{{ url_for('new_project') }}"><span class="fas fa-tasks"></span>New Task</a>
             <div role="separator" class="dropdown-divider my-0"></div>
             <a class="dropdown-item fw-normal rounded-bottom" href="#"><span class="fas fa-rocket text-danger"></span>FUTURE DATA SHIT idk like graphs?</a>
@@ -32,7 +42,7 @@
                                                                  Num Tasks: {{ project.num_tasks }} </small></p>
 
 
-    <!-- The progress bar somewhat cockeyed but thats okay because im very accepting-->
+    <!-- The progress bar somewhat cockeyed but thats okay because im very accepting im an equal opprutunist i dont even k now wtf that is-->
     <div class="col-12 col-lg-8">
               <div class="progress-wrapper">
                   <div class="progress mb-0">
@@ -50,7 +60,7 @@
                   <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
                 </svg>
           </a>
-          
+
       <div class="card-footer border-top border-gray-300 text-muted">
         Last Updated: 2 days ago
     </div>
