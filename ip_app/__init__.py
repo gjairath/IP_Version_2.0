@@ -19,7 +19,7 @@ from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
-
+app.config['SECRET_KEY']= os.environ.get('SECRET_KEY') or "hardcode-these-n"
 uri = os.getenv("DATABASE_URL")  # or other relevant config var
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
