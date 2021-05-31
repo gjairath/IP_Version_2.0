@@ -1,1 +1,1 @@
-web: flask db upgrade; gunicorn creativitynotfound:app
+web: flask db upgrade; gunicorn ip:app
