@@ -18,8 +18,10 @@ from flask_login import LoginManager
 from flask_mail import Mail
 from flask_bootstrap import Bootstrap
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 app = Flask(__name__)
-app.config['SECRET_KEY']= os.environ.get('SECRET_KEY') or "hardcode-these-n"
+app.config['SECRET_KEY']= os.environ.get('SECRET_KEY') or 'sqlite:///' + os.path.join(basedir, 'app.db')
 uri = os.getenv("DATABASE_URL")  # or other relevant config var
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
