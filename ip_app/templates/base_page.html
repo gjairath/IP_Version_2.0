@@ -21,11 +21,14 @@
                 </button>
                 <a class="navbar-brand" href="{{ url_for('index') }}">IP Version 1A </a>
             </div>
+        
+            {% if current_user.is_anonymous %}    
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">                
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{{ url_for('login') }}">Login</a></li>
                 </ul>
             </div>
+            {% endif %}
         </div>
     </nav>
 {% endblock %}

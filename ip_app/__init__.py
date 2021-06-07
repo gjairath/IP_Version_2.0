@@ -6,7 +6,6 @@ Created on Sun May 16 02:33:24 2021
 """
 
 # File imports
-from ip_app.config import Config
 import os
 import sys
 
@@ -22,11 +21,14 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 app.config['SECRET_KEY']= os.environ.get('SECRET_KEY') or 'sqlite:///' + os.path.join(basedir, 'app.db')
-uri = os.getenv("DATABASE_URL")  # or other relevant config var
-if uri.startswith("postgres://"):
-    uri = uri.replace("postgres://", "postgresql://", 1)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = uri
+uri = os.getenv("DATABASE_URL")  # or other relevant config var
+if (uri != None):
+      if (uri.startswith("postgres://")):
+        uri = uri.replace("postgres://", "postgresql://", 1)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = uri or \
+        'sqlite:///' + os.path.join(basedir, 'app.db')
 
 print ("\n\n\n\n{}".format(uri), file=sys.stdout)
 

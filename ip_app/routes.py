@@ -9,7 +9,7 @@ Created on Sun May 16 02:39:37 2021
 from ip_app import app
 from ip_app.forms import Login, Register
 from ip_app.models import db, User, Project
-from ip_app.forms import NewProjectForm
+from ip_app.forms import NewProjectForm, NewTaskForm
 import ip_app.uutil as uutil
 #from ip_app.forgot_email import send_password_reset_email
 
@@ -133,7 +133,21 @@ def delete_project(project_name):
     db.session.delete(desired_project_obj)
     db.session.commit()
     return redirect(url_for("index"))
+
     
+@app.route('/new_task', methods = ["GET", "POST"])
+@login_required
+def new_task_for_project():
+    '''
+    Make a new task after user clicks "New Task" in any project dashboard.
+    
+    0. First show the form.
+    1. Add a row to the table,
+    2. Add THAT data into the DB.
+    
+    '''
+    new_task_form = NewTaskForm()
+    return render_template("new_task.html", form = new_task_form)
 
 @app.before_request
 def before_request():
@@ -141,7 +155,7 @@ def before_request():
     Tracks the last time user logged on.
     before_request is a flask thing that triggers before views. Convinent. [is that how you spell it?]
     '''
-    if (current_user.is_authenticated):
+    if (current_user.is_authenticated): 
         current_user.profile_last_login = datetime.utcnow()
         db.session.commit()
         

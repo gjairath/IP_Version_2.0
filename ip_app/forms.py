@@ -15,6 +15,8 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 class Login(FlaskForm):
     '''
     Login form, driven by base_page.html
+    
+    Note to self: Dont remove the flaskform the validators come from there
     '''
     username = StringField('Username', [validators.DataRequired()])
     password = PasswordField('Password', [validators.DataRequired()])
@@ -61,3 +63,13 @@ class NewProjectForm(FlaskForm):
     num_tasks = IntegerField('Number of Tasks', [validators.DataRequired()])
     
     submit = SubmitField('Create Project')
+
+
+
+class NewTaskForm(FlaskForm):
+    task_name = StringField("Task: ", [validators.DataRequired()])
+    assigned_member = StringField("Assigned To: ", [validators.DataRequired()])
+    
+    eta = IntegerField('Eta: ', [validators.DataRequired()])
+    submit = SubmitField('Create Task in this Project')
+    
