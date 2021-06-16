@@ -6,7 +6,7 @@ Created on Mon May 17 23:07:50 2021
 """
 import unittest
 from ip_app import app, db
-from ip_app.models import User, Project
+from ip_app.models import User, Project, Task
 
 from hashlib import md5
 
@@ -43,6 +43,26 @@ class Test(unittest.TestCase):
         
         self.assertTrue(p.author.username == u.username and p.author.email == u.email)
         
+    def test_project_task_rship(self):
+        
+        p = Project(project_name = "Clean my dishes",
+                    project_desc = "God also cleans things")
+        
+        
+        t = Task(task_name = "Pick up the dishes",
+                 assigned_to = "Jesus Christ")
+                
+        t.project_created_by = p
+        p.id = t.id
+        
+        print ("\n\\n\n\n\n\n")
+        print (t)
+        
+        self.assertTrue(p.project_sub_tasks[0].task_name == t.task_name and p.project_sub_tasks[0].assigned_to == t.assigned_to)
     
 if __name__ == '__main__':
     unittest.main(verbosity=2)
+    
+    
+    t = Test()
+    t.test_project_task_rship()

@@ -19,6 +19,10 @@ from flask_bootstrap import Bootstrap
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+
+# ===================================================
+# Messy code to compensate Deployment on Heroku,
+# Heroku has some issue with FLASK_DB.
 app = Flask(__name__)
 app.config['SECRET_KEY']= os.environ.get('SECRET_KEY') or 'sqlite:///' + os.path.join(basedir, 'app.db')
 
@@ -29,9 +33,8 @@ if (uri != None):
 
 app.config['SQLALCHEMY_DATABASE_URI'] = uri or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
-
-print ("\n\n\n\n{}".format(uri), file=sys.stdout)
-
+# ===================================================
+        
 login = LoginManager(app)
 # Set login view to make a wall user shall not pass.
 login.login_view = 'login'

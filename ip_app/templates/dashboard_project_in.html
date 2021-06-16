@@ -7,7 +7,6 @@
             <li class="breadcrumb-item active" aria-current="page">{{ project_name }}</li>
           </ol>
         </nav>
-<<<<<<< HEAD
         
         
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_add_row">
@@ -40,22 +39,18 @@ Something Here
             <label for="assigned_to" class="form-control-label">Assigned To: </label>
             <input type="text" class="form-control" id="assigned_to">
         </div>
-        
-        <div class="md-form mb-5">
-          <i class="fas fa-envelope prefix grey-text"></i>
-            <label for="num_members" class="form-control-label">Number of Members: </label>
-            <input type="text" class="form-control" id="num_members">
-        </div>
 
         <div class="md-form mb-5">
           <i class="fas fa-tag prefix grey-text"></i>
             <label for="eta" class="form-control-label">ETA: </label>
-            <input type="text" class="form-control" id="eta">
+                <input type="text" placeholder="MM/DD/YYYY"
+                    onfocus="(this.type='date')" class="form-control" id="eta">
+
         </div>
 
       </div>
       <div class="modal-footer d-flex justify-content-center">
-        <button class="btn btn-unique" id="submit">Send <i class="fas fa-paper-plane-o ml-1"></i></button>
+        <button class="btn btn-unique" id="submit" data-dismiss="modal">Submit <i class="fas fa-paper-plane-o ml-1"></i></button>
       </div>
     </div>
   </div>
@@ -69,11 +64,10 @@ Something Here
     <table id="example" class="display" style="width:100%">
         <thead>
             <tr>
-                <th>Column 1</th>
-                <th>Column 2</th>
-                <th>Column 3</th>
-                <th>Column 4</th>
-                <th>Column 5</th>
+                <th>Task Name</th>
+                <th>Assigned To: </th>
+                <th>ETA: </th>
+                <th>Progress: </th>
             </tr>
         </thead>
 
@@ -91,38 +85,20 @@ Something Here
 $(document).ready(function() {
     var t = $('#example').DataTable();
     var counter = 1;
- 
-    $('#submit').on( 'click', function () {
-        t.row.add( [
-            counter +'.1',
-            counter +'.2',
-            counter +'.3',
-            counter +'.4',
-            counter +'.5'
-        ] ).draw( false );
- 
+
+    $("#submit").click(function () {
+        var task_name = $("#task_name").val();
+        var member_name = $("#assigned_to").val();
+        var eta = $("#eta").val();
+                
+        t.row.add([task_name, member_name, eta, "progress_bar"]).draw(false);
         counter++;
-    } );
- } );
-
-
-        $("#submit").click(function () {
-            var task_name = $("#task_name").val();
-            var member_name = $("#assigned_to").val();
-            var num_members = $("#num_members").val();
-            var eta = $("#eta").val();
-            
-            var str = task_name + member_name + num_members + eta;
-            alert(str);
-        });
         
+        // Note to self: 
+        //  No need to close it, the button has a nice data-dismiss
+    });
+
+ } );    
 </script>
 
-
-
-=======
-
-
-      
->>>>>>> ae188606faf2c7bfc329d762b93718f36edabcf4
 {% endblock %}

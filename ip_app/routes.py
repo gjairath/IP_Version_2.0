@@ -133,10 +133,6 @@ def delete_project(project_name):
     db.session.delete(desired_project_obj)
     db.session.commit()
     return redirect(url_for("index"))
-<<<<<<< HEAD
-=======
-
-
 
 @app.route('/Statistics')
 @login_required
@@ -146,8 +142,6 @@ def show_stat_page():
     '''
     return render_template("Statistics.html", user=current_user)
     
->>>>>>> ae188606faf2c7bfc329d762b93718f36edabcf4
-
     
 @app.before_request
 def before_request():

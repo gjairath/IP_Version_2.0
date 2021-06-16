@@ -74,12 +74,35 @@ class Project(db.Model):
     project_last_changed = db.Column(db.DateTime, default=datetime.utcnow)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    author = db.relationship('User', back_populates="user_projects")
-    
     # author is the field that connects the 1 to many relationship with users and projects.
+    author = db.relationship('User', back_populates="user_projects")
+
+    
+    project_sub_tasks = db.relationship("Task", back_populates="project_created_by")    
 
     def __repr__(self):
         return '<Project {}>'.format(self.project_name)
+
+
+class Task(db.Model):
+    id = db.Column(db.Integer, 
+                    primary_key=True)
+    task_name = db.Column(db.String(64), 
+                         index=True)
+    assigned_to = db.Column(db.String(120))
+    eta = db.Column(db.String(120))
+    progress_bar = db.Column(db.String(120))
+
+    
+    # The project that owns this task. Back-link.
+    project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
+    
+    # The 1:many relationship for Project:tasks
+    project_created_by = db.relationship('Project', back_populates="project_sub_tasks")
+    
+
+    def __repr__(self):
+        return '<Task {}>'.format(self.task_name)
 
 
 
