@@ -33,5 +33,8 @@ visitor==0.1.3
 Werkzeug==2.0.0
 WTForms==2.3.3
 zipp==3.4.1
+<<<<<<< HEAD
 psycopg2
 gunicorn
+=======
+>>>>>>> ae188606faf2c7bfc329d762b93718f36edabcf4
