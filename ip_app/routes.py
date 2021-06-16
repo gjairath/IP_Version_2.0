@@ -135,20 +135,6 @@ def delete_project(project_name):
     return redirect(url_for("index"))
 
     
-@app.route('/new_task', methods = ["GET", "POST"])
-@login_required
-def new_task_for_project():
-    '''
-    Make a new task after user clicks "New Task" in any project dashboard.
-    
-    0. First show the form.
-    1. Add a row to the table,
-    2. Add THAT data into the DB.
-    
-    '''
-    new_task_form = NewTaskForm()
-    return render_template("new_task.html", form = new_task_form)
-
 @app.before_request
 def before_request():
     '''
