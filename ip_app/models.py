@@ -99,8 +99,17 @@ class Task(db.Model):
     
     # The 1:many relationship for Project:tasks
     project_created_by = db.relationship('Project', back_populates="project_sub_tasks")
+        
+    def get_data(self):
+        '''
+        Take this class, parse the data and return an array, needed to push the pipeline down to JS.
+        Will be annoying but I assume it's easier to change this array in one place,
+        rather than in a 100 places with the json.toJSon()
+        '''
+        return {"task_name": self.task_name,
+                "assigned_to": self.assigned_to,
+                "eta": self.eta}
     
-
     def __repr__(self):
         return '<Task {}>'.format(self.task_name)
 

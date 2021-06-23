@@ -10,7 +10,7 @@ Created on Wed May 19 23:38:58 2021
 #I know I'm really smart
 
 
-from ip_app.models import User, Project
+from ip_app.models import User, Project, Task
 
 def find_user_obj_by_name(username):
     '''
@@ -28,7 +28,7 @@ def find_project_obj_by_name(project_name, user):
     '''
     Params:
         project_name: string of the name of any projct.
-        user: user object
+        user: current-user object
     Returns:
         Project object associated with it.
     '''
@@ -43,11 +43,26 @@ def find_project_obj_by_name(project_name, user):
     potential_projects = user.user_projects
         
     for pp in potential_projects:
-        if (pp.author.username == user.username):
-            return pp
+        if (pp.author.username == user.username):            
+            if(pp.project_name == project_name):
+                return pp
         else:
             return None
+
+def find_all_tasks_by_project_name(project_name, user):
+    pass
+
+def clean_all():
+    '''
+    Clean tasks for all users
+    '''    
+    print(Task.query.delete())
+    print(Project.query.delete())
+
+    choice = input("Delete Users?")
     
-
-
-
+    if (choice == 1):
+        print(User.query.delete())
+    
+    return
+    

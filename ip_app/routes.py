@@ -8,7 +8,7 @@ Created on Sun May 16 02:39:37 2021
 # Files
 from ip_app import app
 from ip_app.forms import Login, Register
-from ip_app.models import db, User, Project
+from ip_app.models import db, User, Project, Task
 from ip_app.forms import NewProjectForm, NewTaskForm
 import ip_app.uutil as uutil
 #from ip_app.forgot_email import send_password_reset_email
@@ -19,7 +19,14 @@ from datetime import datetime as dt
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from datetime import datetime
+import json
 
+
+# This global variable is similar to current_user, however, it tracks what the current_project_name object is.
+
+# I have no idea whether this is a safe thing to do lol
+# BUT, it's cheaper to track the name not the object.
+current_project_name = None
 
 @app.route('/')
 @app.route('/dashboard')
@@ -101,6 +108,66 @@ def new_project():
         return redirect(url_for("index"))
     return render_template("new_project.html", form = new_project_form)
 
+
+
+
+@app.route('/post-task-method', methods = ['POST'])
+def get_post_javascript_data():
+    '''
+    This method is used to post stuff to the TASK-DB when a user adds a task.
+    JS -> PYTHON -> DB.
+    
+    Check: dashboard_project_in.html
+    '''
+    task_name = request.form['task_name']
+    member_name = request.form['member_name']
+    eta = request.form['eta']
+    
+    # figure out which project to post the data too. 1:many relationship wtih project:task
+    project_name = request.form['project_name']
+    
+    # Which project to add this task to? current_user is courtesy of flask
+    desired_project_obj = uutil.find_project_obj_by_name(project_name, current_user)
+    
+
+    new_task = Task(task_name = task_name,
+                          assigned_to = member_name,
+                          eta = eta,
+                          project_created_by = desired_project_obj)
+
+    flash("{} has been created!".format(task_name))
+    
+    db.session.add(new_task)
+    db.session.commit()
+    
+    return task_name
+
+
+@app.route('/dashboard/<project_name>/get-python-task-data')
+def get_python_data(project_name):
+    '''
+    This method passes the data from DB -> PYTHON -> JS
+    
+    It shows previously made tasks on the DB.
+    '''
+    print(current_project_name)
+    desired_project_obj = uutil.find_project_obj_by_name(current_project_name, current_user)
+    
+    all_tasks = desired_project_obj.project_sub_tasks
+    task_dict = {}
+    final_dict = {}
+    
+    for idx, tasks in enumerate(all_tasks):
+        # Get data takes all the metadata and puts it into an array.f
+        task_dict["task{}".format(idx + 1)] = tasks.get_data()
+        
+        
+    final_dict["tasks"] = task_dict
+    return json.dumps(final_dict)
+    
+
+
+
 @app.route('/dashboard/<project_name>')
 def show_tasks_for_project(project_name):
     '''
@@ -109,6 +176,9 @@ def show_tasks_for_project(project_name):
     Params:
         projectname: name of project clicked.
     '''
+    # Change the global variable everytime a new project is clicked.
+    global current_project_name
+    current_project_name = project_name
     return render_template("dashboard_project_in.html", user=current_user, project_name=project_name)
 
 @app.route('/delete_project/<project_name>')
@@ -118,7 +188,7 @@ def delete_project(project_name):
     Delete project based on project-name, since objects cant be passed back from HTML, find it with uutil.
     I regret naming it uutil this is what I get for being clever.
     
-    Params
+    Paramsf
         project-name: name of the project being considered for deletion, table has unique-value so just find first.
     '''
     # The template cannot return the class object it returns class <Str> instead.
