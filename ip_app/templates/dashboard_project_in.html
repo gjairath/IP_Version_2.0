@@ -8,10 +8,20 @@
           </ol>
         </nav>
         
-        
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_add_row">
-Something Here
-</button>
+
+<a class="editor-create" data-toggle="modal" data-target="#modal_add_row">+ Create new task</a>
+
+<a class="editor-create" id="delete-task">- Delete task</a>
+<style>
+a.editor-create {
+        display: inline-block;
+        margin-bottom: 0.5em;
+        cursor: pointer;
+        color: #bb2525;
+        text-decoration: none;
+        font: 90%/1.45em "Helvetica Neue",HelveticaNeue,Helvetica,Arial,sans-serif !important;
+    }
+    </style>
 
 
     <!-- The modal for the adding a task -->
@@ -50,7 +60,7 @@ Something Here
 
       </div>
       <div class="modal-footer d-flex justify-content-center">
-        <button class="btn btn-unique" id="submit" data-dismiss="modal">Submit <i class="fas fa-paper-plane-o ml-1"></i></button>
+        <button class="btn btn-unique" id="submit-add-task" data-dismiss="modal">Submit <i class="fas fa-paper-plane-o ml-1"></i></button>
       </div>
     </div>
   </div>
@@ -61,9 +71,11 @@ Something Here
 
 
     <!-- My beautiful table that actually displays everything -->
-    <table id="example" class="display" style="width:100%">
+   <table id="task-datatable" class="display select" style="width:100%">
         <thead>
             <tr>
+                <th><input type="checkbox" id="select_all" /></th>
+
                 <th>Task Name</th>
                 <th>Assigned To: </th>
                 <th>ETA: </th>
@@ -78,8 +90,10 @@ Something Here
                     <!-- SCRIPTS -->
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"> </script>
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+
 
 <script>
 $(document).ready(function() {
@@ -91,17 +105,56 @@ $(document).ready(function() {
             populateDataTable(data)
         })
 
-    var t = $('#example').DataTable();
-    var counter = 1;
+  var t = $('#task-datatable').DataTable();
+    
+    $('#task-datatable tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            t.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    });
 
-    $("#submit").click(function () {
+
+
+ $("#delete-task").click(function () {
+        if(confirm("Are you sure?")) {
+
+            console.log(t.row('.selected').index());
+            
+            // if we are here the guy probably said OK
+            
+            var data_array = t.row('.selected').data();            
+
+            var which_row = t.row('.selected').index();
+            var project_name = '{{ project_name }}'; 
+
+            t.row('.selected').remove().draw( false );
+            
+            // 1 - task name, 2 - assigned to, 3 - eta, 4 - progress bar
+            // this is safe ^ because that is how the data is added
+            
+            
+            console.log(which_row);
+
+                // send the data back
+            $.post("/delete-task-method", {which_row:which_row, project_name:project_name});
+            
+             
+        }
+    });  
+  
+  
+
+    $("#submit-add-task").click(function () {
         var task_name = $("#task_name").val();
         var member_name = $("#assigned_to").val();
         var eta = $("#eta").val();
         var project_name = '{{ project_name }}'; 
         
-        t.row.add([task_name, member_name, eta, "progress_bar"]).draw(false);
-        counter++;
+        t.row.add(["", task_name, member_name, eta, "progress_bar"]).draw(false);
         
         // Note to self: 
         //  No need to close it, the button has a nice data-dismiss
@@ -124,7 +177,7 @@ function populateDataTable(data) {
     console.log(Object.keys(data1).length);
 
     // clear the table before populating it with more data
-    $("#example").DataTable().clear();
+    $("#task-datatable").DataTable().clear();
 
     var length = Object.keys(data1.tasks).length;
     
@@ -132,7 +185,8 @@ function populateDataTable(data) {
     for(var i = 1; i < length+1; i++) {
       var task = data1.tasks['task'+i];
 
-      $('#example').dataTable().fnAddData( [
+      $('#task-datatable').dataTable().fnAddData( [
+        "",
         task.task_name,
         task.assigned_to,
         task.eta,

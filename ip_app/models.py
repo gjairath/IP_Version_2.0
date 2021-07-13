@@ -106,10 +106,11 @@ class Task(db.Model):
         Will be annoying but I assume it's easier to change this array in one place,
         rather than in a 100 places with the json.toJSon()
         '''
-        return {"task_name": self.task_name,
+        return {
+                "task_name": self.task_name,
                 "assigned_to": self.assigned_to,
                 "eta": self.eta}
-    
+
     def __repr__(self):
         return '<Task {}>'.format(self.task_name)
 
@@ -119,3 +120,9 @@ class Task(db.Model):
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
+
+
+def delete_all():
+    Project.query.delete()        
+    db.session.commit()

@@ -164,8 +164,31 @@ def get_python_data(project_name):
         
     final_dict["tasks"] = task_dict
     return json.dumps(final_dict)
-    
 
+
+
+@app.route('/delete-task-method', methods = ['POST'])
+def delete_javascript_data():
+    '''
+    This method deletes the task upon the click of "Delete-task"
+    
+    Check: dashboard_project_in.html
+    '''
+    
+    task_id = int(request.form['which_row'])
+    project_name = request.form['project_name']
+    
+    desired_project_obj = uutil.find_project_obj_by_name(project_name, current_user)
+    
+    task_array = desired_project_obj.project_sub_tasks
+
+    flash("{} has been deleted!".format(task_array[task_id].task_name))
+    task_array.pop(task_id)
+    
+    
+    db.session.commit()
+    
+    return task_array
 
 
 @app.route('/dashboard/<project_name>')
