@@ -77,6 +77,10 @@ class Project(db.Model):
     # author is the field that connects the 1 to many relationship with users and projects.
     author = db.relationship('User', back_populates="user_projects")
 
+
+    # I like me better when I'm with you I knew for the first timmmmmme
+    project_created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
     
     project_sub_tasks = db.relationship("Task", back_populates="project_created_by")    
 

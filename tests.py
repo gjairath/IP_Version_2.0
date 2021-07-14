@@ -60,6 +60,7 @@ class Test(unittest.TestCase):
         print (t)
         
         self.assertTrue(p.project_sub_tasks[0].task_name == t.task_name and p.project_sub_tasks[0].assigned_to == t.assigned_to)
+        
     
 if __name__ == '__main__':
     unittest.main(verbosity=2)

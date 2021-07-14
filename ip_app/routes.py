@@ -92,14 +92,19 @@ def new_project():
                 flash ("{} Already Exists!".format(project.project_name))
                 return redirect(url_for("new_project"))
         
-        
+        # Lazy-loading works I think because I'm looking at a girl infront of me shes quite hot
+            # And my gut tells me to do this.
+        from datetime import datetime
+        naive_dt = datetime.now()
+
         
         # Make a user object to add to the DB.
         new_project = Project(project_name = project_name,
                               project_desc = project_desc,
                               num_members = num_members,
                               num_tasks = num_tasks,
-                              author = current_user)        
+                              author = current_user,
+                              project_created_at = naive_dt)        
         # Add the user
         db.session.add(new_project)
         flash("{} has been created!".format(project_name))
@@ -166,7 +171,6 @@ def get_python_data(project_name):
     return json.dumps(final_dict)
 
 
-
 @app.route('/delete-task-method', methods = ['POST'])
 def delete_javascript_data():
     '''
@@ -188,7 +192,7 @@ def delete_javascript_data():
     
     db.session.commit()
     
-    return task_array
+    return "Done"
 
 
 @app.route('/dashboard/<project_name>')
@@ -227,6 +231,8 @@ def delete_project(project_name):
     db.session.commit()
     return redirect(url_for("index"))
 
+
+
 @app.route('/Statistics')
 @login_required
 def show_stat_page():
@@ -234,6 +240,41 @@ def show_stat_page():
     Show the statistics page after the user clicks Statistics.
     '''
     return render_template("Statistics.html", user=current_user)
+
+
+@app.route('/get-python-project-data')
+def get_project_date_graph():
+    '''
+    Get the data of Projects Vs Time created For the Statistics page.
+    
+    
+    Project-Creation-Frequency (Y-axis)
+    Project-Created-AT         (X-axis)
+    '''
+    
+    project_list = current_user.user_projects
+    
+    
+    final_dict = {}
+    
+    # I made project X at july 22, 2021. That's 1.
+    # I made project Y at july 23, 2021. That's 2.
+    # ....
+    
+    # So if 30 projects were made on July 23, show 30 = July 23 2021.
+    project_counter = 1
+    last_date = None
+    
+    for idx, project in enumerate(project_list):        
+        final_dict[idx] = project.project_created_at.strftime("%d %B, %Y")
+            
+    from collections import Counter
+    res = Counter(final_dict.values())
+
+    return json.dumps(res)
+
+
+
     
     
 @app.before_request
