@@ -271,6 +271,8 @@ def get_project_date_graph():
     from collections import Counter
     res = Counter(final_dict.values())
 
+    print (res)
+    
     return json.dumps(res)
 
 

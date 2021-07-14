@@ -16,44 +16,56 @@ $(document).ready(function() {
 
         $.get("/get-python-project-data", function(data) {
             console.log($.parseJSON(data));
+            var data1 = JSON.parse(data);
+            console.log(Object.keys(data1).length);
+            
+            
+            
+            var x_axis = Object.keys(data1);
+            var y_axis = Object.values(data1);
+            make_project_date_graph(x_axis,y_axis);
         })
+        
+    });
 
-});
+function make_project_date_graph(x_axis, y_axis) {
 
 var ctx = document.getElementById('myChart').getContext('2d');
 var chart = new Chart(ctx, {
-	type: 'line', 
+	type: 'bar', 
 
 	// The data for our dataset
 	data: {
-		labels: ["Jun 2016", "Jul 2016", "Aug 2016", "Sep 2016", "Oct 2016", "Nov 2016", "Dec 2016", "Jan 2017", "Feb 2017", "Mar 2017", "Apr 2017", "May 2017"],
-		// Information about the dataset
+		labels: x_axis,
+
     datasets: [{
-			label: "Rainfall",
+			label: "Projects Made",
 			backgroundColor: 'lightblue',
 			borderColor: 'royalblue',
-			data: [26.4, 39.8, 66.8, 66.4, 40.6, 55.2, 77.4, 69.8, 57.8, 76, 110.8, 142.6],
+			data: y_axis,
 		}]
 	},
 
 	// Configuration options
 	options: {
-    layout: {
-      padding: 10,
-    },
+    
 		legend: {
-			position: 'bottom',
+			position: 'right',
 		},
 		title: {
 			display: true,
-			text: 'Precipitation in Toronto'
+			text: 'Projects Made at Dates'
 		},
 		scales: {
 			yAxes: [{
 				scaleLabel: {
 					display: true,
-					labelString: 'Precipitation in mm'
-				}
+					labelString: 'Number of Projects Made'
+				},
+				    ticks: {
+                      stepSize: 1
+                }
+
 			}],
 			xAxes: [{
 				scaleLabel: {
@@ -64,6 +76,8 @@ var chart = new Chart(ctx, {
 		}
 	}
 });
+
+}
 
 </script>
 {% endblock %}
