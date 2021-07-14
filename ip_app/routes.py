@@ -242,7 +242,7 @@ def show_stat_page():
     return render_template("Statistics.html", user=current_user)
 
 
-@app.route('/get-python-project-data')
+@app.route('/get-python-project-date-data')
 def get_project_date_graph():
     '''
     Get the data of Projects Vs Time created For the Statistics page.
@@ -261,10 +261,7 @@ def get_project_date_graph():
     # I made project Y at july 23, 2021. That's 2.
     # ....
     
-    # So if 30 projects were made on July 23, show 30 = July 23 2021.
-    project_counter = 1
-    last_date = None
-    
+    # So if 30 projects were made on July 23, show 30 = July 23 2021.    
     for idx, project in enumerate(project_list):        
         final_dict[idx] = project.project_created_at.strftime("%d %B, %Y")
             
@@ -276,6 +273,40 @@ def get_project_date_graph():
     return json.dumps(res)
 
 
+@app.route('/get-python-project-task-data')
+def get_project_task_graph():
+    '''    
+    Pie chart of projects by the tasks there are.    
+    '''
+    
+    project_list = current_user.user_projects
+    
+    
+    final_dict = {}
+    
+    for project in project_list:        
+        final_dict[project.project_name] = len(project.project_sub_tasks)
+            
+    
+    return json.dumps(final_dict)
+
+
+@app.route('/get-python-project-num-member-data')
+def get_project_num_members_graph():
+    '''    
+    Pie chart of projects by the tasks there are.    
+    '''
+    
+    project_list = current_user.user_projects
+    
+    
+    final_dict = {}
+    
+    for project in project_list:        
+        final_dict[project.project_name] = project.num_members
+            
+    
+    return json.dumps(final_dict)
 
     
     

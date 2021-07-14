@@ -2,28 +2,94 @@
 
 {% block content %}
 
-	<div class="chart">
-		<canvas id="myChart" width="400" height="200"></canvas>
-	</div>
+    <div class="row">
+       <div class="col-12 col-sm-6 col-xl-4 mb-4">
+          <div class="card border-0">
+    
+        	<div class="chart" id="project-date-graph">
+        		<canvas id="myChart" width="400" height="400"></canvas>
+        	</div>
+    
+            </div>
+        </div>
+        
+        
+    <div class="col-12 col-sm-6 col-xl-4 mb-4">
+          <div class="card border-0">
+    
+        	<div class="chart" id="project-date-graph">
+                <canvas id="doughnut-chart-tasks" width="400" height="400"></canvas>
+        	</div>
+    
+            </div>
+        </div>
+
+    <div class="col-12 col-sm-6 col-xl-4 mb-4">
+          <div class="card border-0">
+    
+        	<div class="chart" id="project-date-graph">
+                <canvas id="doughnut-chart-members" width="400" height="400"></canvas>
+        	</div>
+    
+            </div>
+        </div>
+        
+    </div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
+
+
+<style>
+#project-date-graph{
+}
+</style>
 	
 <script>
 
 $(document).ready(function() {
 
-        $.get("/get-python-project-data", function(data) {
-            console.log($.parseJSON(data));
+            // GET the project-date data.
+        $.get("/get-python-project-date-data", function(data) {
             var data1 = JSON.parse(data);
-            console.log(Object.keys(data1).length);
             
             
             
             var x_axis = Object.keys(data1);
             var y_axis = Object.values(data1);
             make_project_date_graph(x_axis,y_axis);
+        })
+        
+        
+        $.get("/get-python-project-task-data", function(data_pt) {
+
+                var data1 = JSON.parse(data_pt);
+                
+                var x_axis = Object.keys(data1);
+                var y_axis = Object.values(data1);
+                
+                console.log(y_axis);
+                
+                
+                make_project_tasks_graph(x_axis, y_axis);
+
+        })
+        
+        
+        $.get("/get-python-project-num-member-data", function(data_pt) {
+                console.log($.parseJSON(data_pt));
+
+                var data1 = JSON.parse(data_pt);
+                
+                var x_axis = Object.keys(data1);
+                var y_axis = Object.values(data1);
+                
+                console.log(y_axis);
+                
+                
+                make_project_members_graph(x_axis, y_axis);
+
         })
         
     });
@@ -62,7 +128,8 @@ var chart = new Chart(ctx, {
 					display: true,
 					labelString: 'Number of Projects Made'
 				},
-				    ticks: {
+    			    ticks: {
+                      beginAtZero: true,
                       stepSize: 1
                 }
 
@@ -70,7 +137,10 @@ var chart = new Chart(ctx, {
 			xAxes: [{
 				scaleLabel: {
 					display: true,
-					labelString: 'Month of the Year'
+					labelString: 'Date'
+				},
+				ticks: {
+                    fontSize: 8
 				}
 			}]
 		}
@@ -78,6 +148,60 @@ var chart = new Chart(ctx, {
 });
 
 }
+
+function make_project_tasks_graph(x, y) {
+
+
+    new Chart(document.getElementById("doughnut-chart-tasks"), {
+        type: 'doughnut',
+        data: {
+          labels: x,
+          datasets: [
+            {
+              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+              data: y
+            }
+          ]
+        },
+        options: {
+        legend: {
+			position: 'right',
+		},
+          title: {
+            display: true,
+            text: 'Project Names by Tasks'
+          }
+        }
+    });
+}
+
+
+function make_project_members_graph(x, y) {
+
+
+    new Chart(document.getElementById("doughnut-chart-members"), {
+        type: 'doughnut',
+        data: {
+          labels: x,
+          datasets: [
+            {
+              backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+              data: y
+            }
+          ]
+        },
+        options: {
+        legend: {
+			position: 'right',
+		},
+          title: {
+            display: true,
+            text: 'Project Names by Members'
+          }
+        }
+    });
+}
+
 
 </script>
 {% endblock %}
