@@ -160,6 +160,14 @@ def update_project_columns(desired_project_obj):
         
     desired_project_obj.num_members = len(unique_member_count)
     
+    
+    
+    # Take date time and update "LAST_UPDATED" on dashboard.
+    from datetime import datetime
+    naive_dt = datetime.now()
+
+    desired_project_obj.project_last_changed = naive_dt
+    
     return
 
 
