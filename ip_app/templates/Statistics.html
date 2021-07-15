@@ -2,6 +2,9 @@
 
 {% block content %}
 
+
+<!-- THE FIRST ROW OF DATA, 3 GRAPHS -->
+
     <div class="row">
        <div class="col-12 col-sm-6 col-xl-4 mb-4">
           <div class="card border-0">
@@ -35,15 +38,111 @@
         </div>
         
     </div>
+    
+    
+    <!-- THE second ROW OF DATA, project graphs -->
 
+    <div class="row">
+    
+<div class="card border-0">
+   <div class="card-header border-bottom d-flex align-items-center justify-content-between">
+      <h2 class="fs-5 fw-bold mb-0">Progress track for Projects</h2>
+      
+       <!-- CHANGE THIS -->   
+               <!-- Show the third row of data based on collapse -->
+     <a class="btn btn-sm btn-primary" data-toggle="collapse" href="#show-tasks-data" role="button" aria-expanded="false" 
+               aria-controls="show-tasks-data">See tasks</a>
+
+   </div>
+   
+   <div class="card-body">
+      <div class="row mb-4">
+         
+         <div class="col-auto">
+            <svg class="icon icon-sm text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+               <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+               <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+            </svg>
+         </div>
+         
+         {% for project in project_list %}
+         <div class="col">
+            <div class="progress-wrapper">
+               <div class="progress-info">
+                  <div class="h6 mb-0">Project Name: {{project.project_name}}</div>
+                  
+               
+               </div>
+               <div class="progress mb-0">
+                  <div class="progress-bar bg-info" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">75%</div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="row align-items-center mb-4">
+         <div class="col-auto">
+            <svg class="icon icon-sm text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+               <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+               <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+            </svg>
+         </div>
+         {% endfor %} 
+      </div>
+   </div>
+</div>
+    </div>
+    
+
+    <!-- THE THIRD ROW OF DATA FOR PROJECTS -->
+<div class="row collapse multi-collapse" id = "show-tasks-data">
+{% for project in project_list %}
+       <div class="col-12 col-sm-6 col-xl-6 mb-4">
+           <div class="card border-0">
+              <div class="card-header">
+                 <div class="row align-items-center">
+                    <div class="col">
+                       <h2 class="fs-5 fw-bold mb-0">Project: {{project.project_name}}</h2>
+                    </div>
+                 </div>
+              </div>
+              <div class="table-responsive">
+                 <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                       <tr>
+                          <th class="border-bottom" scope="col">Task Name</th>
+                          <th class="border-bottom" scope="col">Assigned To</th>
+                          <th class="border-bottom" scope="col">Eta</th>
+                       </tr>
+                    </thead>
+                    <tbody>
+                       <tr>
+                          <th class="text-gray-900" scope="row">/demo/admin/index.html</th>
+                          <td class="fw-bolder text-gray-500">Garvit</td>
+                          <td class="fw-bolder text-gray-500">6 Hours</td>
+                       </tr>
+                    </tbody>
+                 </table>
+              </div>
+           </div>
+        </div>
+{% endfor %}
+
+</div>
+
+
+
+    <!-- SCRIPTS -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 
 
-
+<!-- im lazy and i dont want to use external CSS so fuck that i think padding is good *wink wink*-->
 <style>
-#project-date-graph{
+
+#show-tasks-data {
+    margin-top: 30px;
 }
+
 </style>
 	
 <script>

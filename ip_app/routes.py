@@ -239,7 +239,7 @@ def show_stat_page():
     '''
     Show the statistics page after the user clicks Statistics.
     '''
-    return render_template("Statistics.html", user=current_user)
+    return render_template("Statistics.html", user=current_user, project_list=current_user.user_projects)
 
 
 @app.route('/get-python-project-date-data')
