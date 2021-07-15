@@ -42,20 +42,20 @@ a.editor-create {
         <div class="md-form mb-5">
           <i class="fas fa-user prefix grey-text"></i>
             <label for="task_name" class="form-control-label">Task Name: </label>
-            <input type="text" class="form-control" id="task_name" value="New Task for {{ project_name }}">
+            <input type="text" class="form-control" id="task_name" placeholder="New Task for {{ project_name }}">
         </div>
 
         <div class="md-form mb-5">
           <i class="fas fa-envelope prefix grey-text"></i>
-            <label for="assigned_to" class="form-control-label">Assigned To: </label>
-            <input type="text" class="form-control" id="assigned_to">
+            <label for="assigned_to" class="form-control-label" >Assigned To: </label>
+            <input type="text" class="form-control" id="assigned_to" placeholder="Member Name">
         </div>
 
         <div class="md-form mb-5">
           <i class="fas fa-tag prefix grey-text"></i>
             <label for="eta" class="form-control-label">ETA: </label>
                 <input type="text" placeholder="MM/DD/YYYY"
-                    onfocus="(this.type='date')" class="form-control" id="eta">
+                    onfocus="(this.type='date')" class="form-control" id="eta"  >
 
         </div>
 
@@ -165,6 +165,15 @@ $(document).ready(function() {
         var member_name = $("#assigned_to").val();
         var eta = $("#eta").val();
         var project_name = '{{ project_name }}'; 
+        
+        
+        if (task_name == "" || member_name == "" || project_name == "") {
+            if (confirm("Some fields are left blank!\nAre you sure you'd like to add this task anyway?")){
+                    
+            } else {
+                return;
+            }
+        }
         
         t.row.add(["", task_name, member_name, eta, "progress_bar"]).draw(false);
         
