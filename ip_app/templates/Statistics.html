@@ -1,4 +1,5 @@
 {% extends "test69.html" %}
+{% block nav_stats %}active{% endblock nav_stats %}
 
 {% block content %}
 
@@ -150,12 +151,29 @@
     margin-top: 30px;
 }
 
+
 </style>
 	
 <script>
 
 $(document).ready(function() {
 
+// https://stackoverflow.com/questions/46109330/chart-js-when-all-the-values-passed-to-data-are-zeros-nothing-is-showing
+// Quite nice of this fellow human being to give me this code
+
+Chart.plugins.register({
+   beforeInit: function(chart) {
+      var data = chart.data.datasets[0].data;
+      var isAllZero = data.reduce((a, b) => a + b) > 0 ? false : true;
+      if (!isAllZero) return;
+      // when all data values are zero...
+      chart.data.datasets[0].data = data.map((e, i) => i > 0 ? 0 : 1); //add one segment
+      chart.data.datasets[0].backgroundColor = '#d2dee2'; //change bg color
+      chart.data.datasets[0].borderWidth = 0; //no border
+      chart.options.tooltips = false; //disable tooltips
+      chart.options.legend.onClick = null; //disable legend click
+   }
+});
             // GET the project-date data.
         $.get("/get-python-project-date-data", function(data) {
             var data1 = JSON.parse(data);
@@ -167,6 +185,8 @@ $(document).ready(function() {
             make_project_date_graph(x_axis,y_axis);
         })
         
+        
+        // first dougnut chart
         
         $.get("/get-python-project-task-data", function(data_pt) {
 

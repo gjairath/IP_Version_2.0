@@ -138,7 +138,18 @@ def get_post_javascript_data():
                           eta = eta,
                           project_created_by = desired_project_obj)
     
+    # Update the columns after a new task is created.
+    update_project_columns(desired_project_obj)
     
+    flash("{} has been created!".format(task_name))
+    
+    db.session.add(new_task)
+    db.session.commit()
+    
+    return task_name
+
+
+def update_project_columns(desired_project_obj):
     # Update Num tasks and Num members based on new task.
     desired_project_obj.num_tasks = len(desired_project_obj.project_sub_tasks)
     
@@ -148,13 +159,8 @@ def get_post_javascript_data():
         unique_member_count.add(task.assigned_to)
         
     desired_project_obj.num_members = len(unique_member_count)
-
-    flash("{} has been created!".format(task_name))
     
-    db.session.add(new_task)
-    db.session.commit()
-    
-    return task_name
+    return
 
 
 @app.route('/dashboard/<project_name>/get-python-task-data')
@@ -199,7 +205,16 @@ def delete_javascript_data():
 
     db.session.delete(task_array[task_id])    
     db.session.commit()
-    
+
+        # Update the columns after a new task is deleted.
+    update_project_columns(desired_project_obj)
+
+
+    # Do 2 commits because 2 > 1. 
+        # Also because if you dont the DB doesnt update and the function doesnt work.
+    db.session.commit()
+
+
     return "Done"
 
 
