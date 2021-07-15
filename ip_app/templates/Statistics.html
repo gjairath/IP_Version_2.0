@@ -285,14 +285,13 @@ function make_project_tasks_graph(x, y) {
           datasets: [
             {
               backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: y
+              data: y,
+              hoverOffset: 6
+
             }
           ]
         },
         options: {
-        legend: {
-			position: 'right',
-		},
           title: {
             display: true,
             text: 'Project Names by Tasks'
@@ -312,14 +311,13 @@ function make_project_members_graph(x, y) {
           datasets: [
             {
               backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-              data: y
+              data: y,
+              hoverOffset: 6
+
             }
           ]
         },
         options: {
-        legend: {
-			position: 'right',
-		},
           title: {
             display: true,
             text: 'Project Names by Members'
