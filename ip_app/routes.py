@@ -82,8 +82,6 @@ def new_project():
         # Grab already validated data from the form
         project_name = new_project_form.project_name.data        
         project_desc = new_project_form.project_desc.data        
-        num_members = new_project_form.num_members.data        
-        num_tasks = new_project_form.num_tasks.data        
 
         this_user_projects = current_user.user_projects
         
@@ -101,8 +99,8 @@ def new_project():
         # Make a user object to add to the DB.
         new_project = Project(project_name = project_name,
                               project_desc = project_desc,
-                              num_members = num_members,
-                              num_tasks = num_tasks,
+                              num_members = 0,
+                              num_tasks = 0,
                               author = current_user,
                               project_created_at = naive_dt)        
         # Add the user
@@ -139,6 +137,17 @@ def get_post_javascript_data():
                           assigned_to = member_name,
                           eta = eta,
                           project_created_by = desired_project_obj)
+    
+    
+    # Update Num tasks and Num members based on new task.
+    desired_project_obj.num_tasks = len(desired_project_obj.project_sub_tasks)
+    
+    unique_member_count = set()
+    
+    for task in desired_project_obj.project_sub_tasks:
+        unique_member_count.add(task.assigned_to)
+        
+    desired_project_obj.num_members = len(unique_member_count)
 
     flash("{} has been created!".format(task_name))
     
@@ -187,9 +196,8 @@ def delete_javascript_data():
     task_array = desired_project_obj.project_sub_tasks
 
     flash("{} has been deleted!".format(task_array[task_id].task_name))
-    task_array.pop(task_id)
-    
-    
+
+    db.session.delete(task_array[task_id])    
     db.session.commit()
     
     return "Done"
@@ -225,6 +233,10 @@ def delete_project(project_name):
     
     if (desired_project_obj == None):
         return render_template('404.html'), 404
+    
+    #Delete all the sub-tasks.
+    for tasks in desired_project_obj.project_sub_tasks:
+        db.session.delete(tasks)
     
     flash("{} has been deleted".format(desired_project_obj.project_name), category="dashboard")
     db.session.delete(desired_project_obj)

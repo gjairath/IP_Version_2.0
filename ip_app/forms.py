@@ -59,8 +59,6 @@ class Register(FlaskForm):
 class NewProjectForm(FlaskForm):
     project_name = StringField('Project Name', [validators.DataRequired()])
     project_desc = TextAreaField('Project Description', [validators.DataRequired()])
-    num_members = IntegerField('Number of Members', [validators.DataRequired()])
-    num_tasks = IntegerField('Number of Tasks', [validators.DataRequired()])
     
     submit = SubmitField('Create Project')
 
