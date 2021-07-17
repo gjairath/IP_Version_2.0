@@ -10,19 +10,6 @@
         </nav>
         
 
-<a class="editor-create" data-toggle="modal" data-target="#modal_add_row">+ Create new task</a>
-
-<a class="editor-create" id="delete-task">- Delete task</a>
-<style>
-a.editor-create {
-        display: inline-block;
-        margin-bottom: 0.5em;
-        cursor: pointer;
-        color: #bb2525;
-        text-decoration: none;
-        font: 90%/1.45em "Helvetica Neue",HelveticaNeue,Helvetica,Arial,sans-serif !important;
-    }
-    </style>
 
 
     <!-- The modal for the adding a task -->
@@ -70,12 +57,11 @@ a.editor-create {
 
 
 
-
     <!-- My beautiful table that actually displays everything -->
-   <table id="task-datatable" class="display select" style="width:100%">
+   <table id="task-datatable" class="cell-border" style="width:100%">
         <thead>
             <tr>
-                <th><input type="checkbox" id="select_all" /></th>
+                <th></th>
 
                 <th>Task Name</th>
                 <th>Assigned To: </th>
@@ -85,9 +71,7 @@ a.editor-create {
         </thead>
 
     </table>
-    
-    
-    
+        
     
     <!----------------->
 
@@ -97,6 +81,41 @@ a.editor-create {
 <script src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"> </script>
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+
+
+
+<!-- inline css -->
+<style>
+a.editor-create {
+        display: inline-block;
+        margin-bottom: 0.5em;
+        cursor: pointer;
+        color: #bb2525;
+        text-decoration: none;
+        font: 90%/1.45em "Helvetica Neue",HelveticaNeue,Helvetica,Arial,sans-serif !important;
+        
+    }
+#create-task {
+        float: right;
+}
+
+    
+.dataTables_filter {
+    float: left !important;
+
+}
+
+#delete-task{
+    float: left;
+}
+
+#task-datatable tbody tr.selected {
+    color: white;
+    background-color: #eeeeee;
+}
+</style>
+
+
 
 
 <script>
@@ -109,7 +128,18 @@ $(document).ready(function() {
             populateDataTable(data)
         })
 
-  var t = $('#task-datatable').DataTable();
+  var t = $('#task-datatable').DataTable({
+    "dom": '<"toolbar">frtip',
+    language: {
+        search: "_INPUT_",
+        searchPlaceholder: "Filter..."
+    },
+  "paging": false,
+  "order": [[1, "desc"]], 
+  "columnDefs": [
+    { "orderable": false, "width": "2%", "targets": 0 }
+  ]
+} );
     
     $('#task-datatable tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
@@ -121,8 +151,15 @@ $(document).ready(function() {
         }
     });
 
+    t.on( 'order.dt search.dt', function () {
+        t.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+            cell.innerHTML = i+1;
+        } );
+    } ).draw();
 
-
+    
+    $("div.toolbar").html('<button type="button" class="btn btn-outline-secondary editor-create" id="create-task" data-toggle="modal" data-target="#modal_add_row">    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path></svg> Tasks</button> <button type="button" class="editor-create btn btn-secondary" id="delete-task"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">  <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/></svg></button>');
+    
  $("#delete-task").click(function () {
  
     console.log(t.row('.selected').index());
