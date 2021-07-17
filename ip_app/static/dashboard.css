@@ -1,0 +1,18 @@
+.project-cards {
+}
+
+.card-footer {
+    padding-top: 0.4rem;
+    padding-bottom: 0rem;
+    max-height: 2.4rem;
+    text-align: justify;
+}
+
+#delete-project {
+
+}
+
+
+#project-link {
+    max-width: 0.5vw;
+}
