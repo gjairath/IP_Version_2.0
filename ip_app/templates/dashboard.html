@@ -14,15 +14,13 @@
     </nav>
 </div>
         
-<div class="d-flex flex-items-start">
-      <div class="d-flex flex-column flex-lg-row flex-auto">
+<div class="d-flex flex-items-start project-nav">
 
           <input type="search" id="project-search" class="form-control width-full" placeholder="Filter..." autocomplete="off" value="">
 
-    <a href="{{ url_for('new_project') }}" class="btn btn-dark btn-primary-medium active" role="button" aria-pressed="true">
+    <a href="{{ url_for('new_project') }}" id="new-project-btn" class="btn btn-dark btn-primary-medium active" role="button" aria-pressed="true">
     New Project
     </a>
-</div>
 </div>
 
 <section id="projects-list">
@@ -43,7 +41,7 @@
           <h5 class="card-title"> {{ project.project_name }}</h5> </a>
   
         
-          <p class="card-text"> Description: {{ project.project_desc }} </p>
+          <p class="card-text" id="card-desc"> Description: {{ project.project_desc }} </p>
           
          <p class="card-text"><small class="text-success">Num Members: {{ project.num_members }}, 
                                                                      Num Tasks: {{ project.num_tasks }} </small></p>

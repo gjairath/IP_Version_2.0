@@ -1,18 +1,22 @@
 .project-cards {
+    margin-top: 0.15rem;
+    width: 100%;
+    
 }
 
-.card-footer {
-    padding-top: 0.4rem;
-    padding-bottom: 0rem;
-    max-height: 2.4rem;
-    text-align: justify;
+.project-nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+        
 }
 
-#delete-project {
-
+#project-search {
+    width: 25%;
+    float: left;
 }
 
-
-#project-link {
-    max-width: 0.5vw;
+#new-project-btn {
+    float: right !important;
+    right: 0;
 }
