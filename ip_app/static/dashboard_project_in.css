@@ -6,25 +6,41 @@ a.editor-create {
         text-decoration: none;
         font: 90%/1.45em "Helvetica Neue",HelveticaNeue,Helvetica,Arial,sans-serif !important;
         
-    }
+}
     
-
-#delete-task{
-    height: 35px;
+#create-task {
+    position: absolute;
+    right: 0;
     text-align: center;
-    
-    padding: 5px 8px;
+}
+
+.dataTables_filter > label {
+
+    background-image: url('/static/searchicon.png'); 
+
+    background-position: 2px 7px; 
+    background-repeat: no-repeat; 
+    padding-left: 2rem;
 
 }
 
-.toolbar{
-    display: flex;
-    justify-content: space-around;
+#delete-task{
+    height: 33px;
+    text-align: center;
+    
+    padding: 1px 5px;
+    padding-bottom: 5px;
+    margin-left: 5px;
+
 }
 
 .project-ul{
-    width: 100%;
-
+    display: flex;
+    
+    align-items: center;
+    padding-left: 0px;
+    margin-bottom: 0px;
+    
 }
 
 #task-datatable tbody tr.selected {
