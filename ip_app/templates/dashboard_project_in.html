@@ -94,7 +94,7 @@
 
 <script>
 $(document).ready(function() {
-
+    
 
             // This repopulates the data on after adding atleast one task to your DB.
         $.get("/dashboard/<project_name>/get-python-task-data", function(data) {
@@ -131,8 +131,9 @@ $(document).ready(function() {
         } );
     } ).draw();
 
-    
-    $("div.toolbar").html('<button type="button" class="btn btn-outline-secondary editor-create" id="create-task" data-toggle="modal" data-target="#modal_add_row">    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path></svg> Tasks</button> <button type="button" class="editor-create btn btn-secondary" id="delete-task"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">  <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/></svg></button>');
+
+    $("div.toolbar").html('<ul class="project-ul" id="project-ul"> <button type="button" class="btn btn-outline-secondary editor-create" id="create-task" data-toggle="modal" data-target="#modal_add_row">    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">      <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path>      <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path></svg> Tasks</button> <button type="button" class="editor-create btn btn-secondary" id="delete-task"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">  <path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/></svg></button></ul>');
+    $('div.dataTables_filter').appendTo(".project-ul");
     
  $("#delete-task").click(function () {
  
@@ -199,8 +200,13 @@ $(document).ready(function() {
                                     project_name: project_name    
                                 });
     });
+    
 
  } );    
+ 
+ 
+
+ 
  
 function reverse_eta(str){
    return str.split('-').reverse().join('-');

@@ -7,18 +7,24 @@ a.editor-create {
         font: 90%/1.45em "Helvetica Neue",HelveticaNeue,Helvetica,Arial,sans-serif !important;
         
     }
-#create-task {
-        float: right;
-}
-
     
-.dataTables_filter {
-    float: left !important;
-
-}
 
 #delete-task{
-    float: left;
+    height: 35px;
+    text-align: center;
+    
+    padding: 5px 8px;
+
+}
+
+.toolbar{
+    display: flex;
+    justify-content: space-around;
+}
+
+.project-ul{
+    width: 100%;
+
 }
 
 #task-datatable tbody tr.selected {
