@@ -2,7 +2,11 @@
 {% block nav_dash %}active{% endblock nav_dash %}
 
 {% block content %}
-<nav aria-label="breadcrumb">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+
+<nav aria-label="breadcrumb" id="dashboard-crumb" class="top-breadcrumb">
     <ol class="breadcrumb breadcrumb-text-light breadcrumb-secondary text-white">
             <li class="breadcrumb-item"><a href="{{url_for('index')}}">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">{{ project_name }}</li>
@@ -84,38 +88,8 @@
 
 
 
-<!-- inline css -->
-<style>
-a.editor-create {
-        display: inline-block;
-        margin-bottom: 0.5em;
-        cursor: pointer;
-        color: #bb2525;
-        text-decoration: none;
-        font: 90%/1.45em "Helvetica Neue",HelveticaNeue,Helvetica,Arial,sans-serif !important;
-        
-    }
-#create-task {
-        float: right;
-}
 
-    
-.dataTables_filter {
-    float: left !important;
-
-}
-
-#delete-task{
-    float: left;
-}
-
-#task-datatable tbody tr.selected {
-    color: white;
-    background-color: #eeeeee;
-}
-</style>
-
-
+        <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_project_in.css') }}">
 
 
 <script>

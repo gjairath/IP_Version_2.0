@@ -6,7 +6,7 @@
 {% block content %}
 
 
-<div class="breadcrumb">
+<div class="top-breadcrumb" id="dashboard-crumb">
     <nav aria-label="breadcrumb">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item active"><a href="{{url_for('index')}}">Home</a></li>
@@ -14,13 +14,18 @@
     </nav>
 </div>
         
-<div class="d-flex flex-items-start project-nav">
+<div class="project-nav">
+
+    <ul id="i-cant-think-of-a-name">
 
           <input type="search" id="project-search" class="form-control width-full" placeholder="Filter..." autocomplete="off" value="">
 
     <a href="{{ url_for('new_project') }}" id="new-project-btn" class="btn btn-dark btn-primary-medium active" role="button" aria-pressed="true">
     New Project
     </a>
+    
+    </ul>
+    
 </div>
 
 <section id="projects-list">
@@ -30,7 +35,7 @@
     </div>
 
     {% for project in project_list %}
-    <div class="card project-cards">
+    <div class="card project-cards" data-content="{{ project.project_name }}">
       <div class="card-body">
 
 <div class="row">    
@@ -77,6 +82,27 @@
 
 
 <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+<script>
+$("#project-search").on("keyup", function() {
+  var input = $(this).val().toUpperCase();
+  
+
+  $(".project-cards").each(function() {
+  // OKAY this works i'm unsure if its bad but it work
+      console.log($(this).data("content").toUpperCase().indexOf(input));
+    if ($(this).data("content").toUpperCase().indexOf(input) < 0) {
+      $(this).hide();
+    } else {
+      $(this).show();
+    }
+  })
+});
+</script>
+
 
 
 {% endblock %}

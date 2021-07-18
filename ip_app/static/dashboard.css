@@ -7,16 +7,43 @@
 .project-nav {
       display: flex;
       justify-content: space-around;
-      align-items: center;
-        
+         
 }
 
 #project-search {
     width: 25%;
     float: left;
+    
+    background-image: url('/static/searchicon.png'); 
+
+    background-position: 2px 7px; 
+    background-repeat: no-repeat; 
+    font-size: 16px; 
+    padding-left: 2rem;
+    
+    
 }
 
 #new-project-btn {
     float: right !important;
     right: 0;
+}
+
+#i-cant-think-of-a-name {
+    width: 100%;
+    padding: 0 0;
+    
+    margin-bottom: 0.5rem;
+
+}
+
+.top-breadcrumb{
+    height: 20%;
+    margin-bottom: 0;
+    margin-top: 1.2rem;
+    font-size: 1.2rem;
+}
+
+.breadcrumb-item > a {
+    text-decoration: none;
 }
