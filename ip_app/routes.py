@@ -90,8 +90,7 @@ def new_project():
                 flash ("{} Already Exists!".format(project.project_name))
                 return redirect(url_for("new_project"))
         
-        # Lazy-loading works I think because I'm looking at a girl infront of me shes quite hot
-            # And my gut tells me to do this.
+        # Lazy-loading works I think because ...?
         from datetime import datetime
         naive_dt = datetime.now()
 
@@ -238,7 +237,6 @@ def show_tasks_for_project(project_name):
     global current_project_name
     current_project_name = project_name
     return render_template("dashboard_project_in.html", user=current_user, project_name=project_name)
-
 
 
 @app.route('/dashboard/<project_name>/gridview')

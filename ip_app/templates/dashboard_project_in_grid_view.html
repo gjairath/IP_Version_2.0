@@ -89,12 +89,15 @@
                 <h2 class="fs-5 fw-bold mb-1">Workload</h2>
             </div>
 
-            <div class="card-footer border-0 px-3 py-4">
+            <div class="card-body">
                 <div id="chart-weekly-sales">
                       <canvas id="myChart"></canvas>
-
+                
                 </div>
+
             </div>
+            
+            
         </div>
     </div>
 </div>
@@ -110,20 +113,25 @@
 
 <script>
 $(document).ready(function() {
-const labels = [
-'January',
-'February',
-'March',
-'April',
-'May',
-'June',
-];
+
+const element = document.getElementsByTagName("h4");
+
+
+var arr = [];
+
+for (let i = 0; i < element.length; i++) {
+  arr.push(element[i].innerText);
+}
+
+console.log(arr);
+
+const labels = arr;
 
 const data = {
   labels: labels,
   datasets: [{
     label: 'My First Dataset',
-    data: [65, 59, 80, 81, 56, 55, 40],
+    data: [2, 1, 1, 1],
     backgroundColor: [
       'rgba(255, 99, 132, 0.2)',
       'rgba(255, 159, 64, 0.2)',
@@ -161,6 +169,7 @@ const config = {
                 lineWidth: 0
             },
             ticks: {
+                beginAtZero: true,
                 display: false
             }
         }

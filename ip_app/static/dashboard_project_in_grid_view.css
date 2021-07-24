@@ -24,3 +24,9 @@
 .breadcrumb-item > a {
     text-decoration: none;
 }
+
+.footer-axis{
+    position: relative;
+    left: 50px;
+    padding-left: 50px;
+}
