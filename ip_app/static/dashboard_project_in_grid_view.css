@@ -1,0 +1,26 @@
+.col-12{
+    width: 50%; 
+}
+
+.rounded {
+    max-height: 32px;
+    max-width: 32px;
+
+}
+
+#toggle-view-switch {
+    margin-bottom: 25px;
+}
+
+
+
+.top-breadcrumb {
+    height: 20%;
+    margin-bottom: 0;
+    margin-top: 1.2rem;
+    font-size: 1.2rem;
+}
+
+.breadcrumb-item > a {
+    text-decoration: none;
+}

@@ -114,7 +114,16 @@ class Task(db.Model):
                 "task_name": self.task_name,
                 "assigned_to": self.assigned_to,
                 "eta": self.eta}
-
+    
+    
+    def member_exists(self, name):
+        '''
+        Check if the given name exists.
+        
+        This is safe because usernames are unique.
+        '''
+        return User.query.filter(User.username == name).first()
+    
     def __repr__(self):
         return '<Task {}>'.format(self.task_name)
 

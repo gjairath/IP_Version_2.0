@@ -239,6 +239,26 @@ def show_tasks_for_project(project_name):
     current_project_name = project_name
     return render_template("dashboard_project_in.html", user=current_user, project_name=project_name)
 
+
+
+@app.route('/dashboard/<project_name>/gridview')
+def show_grid_view_tasks_for_projects(project_name):
+    global current_project_name
+    current_project_name = project_name
+    
+    current_project = uutil.find_project_obj_by_name(current_project_name, current_user)
+    all_tasks = current_project.project_sub_tasks
+    
+    unique_member_names = dict()
+    for task in all_tasks:
+        unique_member_names[task.assigned_to] = task.member_exists(task.assigned_to)
+        
+    
+    return render_template("dashboard_project_in_grid_view.html", user=current_user, project_name=project_name,
+                           member_names=unique_member_names)
+
+
+
 @app.route('/delete_project/<project_name>')
 @login_required
 def delete_project(project_name):
