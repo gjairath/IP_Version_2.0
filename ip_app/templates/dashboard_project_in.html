@@ -5,6 +5,7 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+<script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
 
 <nav aria-label="breadcrumb" id="dashboard-crumb" class="top-breadcrumb">
     <ol class="breadcrumb breadcrumb-text-light breadcrumb-secondary text-white">
@@ -15,12 +16,15 @@
         
 
 
-<ul class="nav justify-content-center">
-  <li class="nav-item">
-    <a class="nav-link disabled" aria-current="page" href="{{url_for('show_tasks_for_project', project_name=project_name)}}">Tabular-View</a>
+<ul class="nav justify-content-center" id="toggle-view-switch">
+  <li class="nav-item-top">
+    <a class="nav-link disabled" aria-current="page" href="{{url_for('show_tasks_for_project', project_name=project_name)}}">
+    <span class="iconify" data-icon="ci:list-plus" data-inline="false"></span>Tabular-View</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link active" href="{{url_for('show_grid_view_tasks_for_projects', project_name=project_name)}}"  tabindex="-1" aria-disabled="true">Grid-View</a>
+  <li class="nav-item-top">
+    <a class="nav-link" href="{{url_for('show_grid_view_tasks_for_projects', project_name=project_name)}}"  tabindex="-1" aria-disabled="true">
+    <span class="iconify" data-icon="feather-grid" data-inline="false"></span>
+    Grid-View</a>
   </li>
 
 </ul>

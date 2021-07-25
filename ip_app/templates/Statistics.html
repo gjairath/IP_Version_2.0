@@ -122,16 +122,16 @@
                        <tr>
                           <th class="border-bottom" scope="col">Task Name</th>
                           <th class="border-bottom" scope="col">Assigned To</th>
-                          <th class="border-bottom" scope="col">Eta</th>
+                          <th class="border-bottom" scope="col">ETA</th>
                        </tr>
                     </thead>
                     <tbody>
                     <!-- If we get here, we are certain that project subtasks > 0 -->
                     {% for task in project.project_sub_tasks %}
                        <tr>
-                          <th class="text-gray-900" scope="row">{{task.task_name}}</th>
-                          <td class="fw-bolder text-gray-500">{{task.assigned_to}}</td>
-                          <td class="fw-bolder text-gray-500">{{task.eta}}</td>
+                          <td class="fw text-gray-500">{{task.task_name}}</th>
+                          <td class="fw text-gray-500">{{task.assigned_to}}</td>
+                          <td class="fw text-gray-500">{{task.eta}}</td>
                        </tr>
                      {% endfor %}
                     </tbody>

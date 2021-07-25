@@ -11,7 +11,9 @@ from ip_app.forms import Login, Register
 from ip_app.models import db, User, Project, Task
 from ip_app.forms import NewProjectForm, NewTaskForm
 import ip_app.uutil as uutil
-#from ip_app.forgot_email import send_password_reset_email
+from ip_app.forms import ResetPasswordForm
+from ip_app.forms import ResetPasswordRequestForm
+from ip_app.email import send_password_reset_email
 
 # Packages
 from flask import request, render_template, make_response, redirect, flash, url_for
@@ -248,12 +250,21 @@ def show_grid_view_tasks_for_projects(project_name):
     all_tasks = current_project.project_sub_tasks
     
     unique_member_names = dict()
+    member_task_count = dict()
+    
     for task in all_tasks:
+        #{member_name: member_object_metadata, ...}
         unique_member_names[task.assigned_to] = task.member_exists(task.assigned_to)
         
-    
+        #{member_name:2, member_name: 3, ...}
+        if (task.assigned_to not in member_task_count.keys()):
+            member_task_count[task.assigned_to] = 0
+            
+        member_task_count[task.assigned_to] += 1
+        
+    print (member_task_count)
     return render_template("dashboard_project_in_grid_view.html", user=current_user, project_name=project_name,
-                           member_names=unique_member_names)
+                           member_names=unique_member_names, member_count=member_task_count)
 
 
 
@@ -436,6 +447,37 @@ def login():
             return redirect(url_for("login"))
             
     return render_template('login.html', title='Sign In', form=login_form)
+
+
+@app.route('/reset_password_request', methods=['GET', 'POST'])
+def reset_password_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    form = ResetPasswordRequestForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            send_password_reset_email(user)
+        flash('Check your email for the instructions to reset your password')
+        return redirect(url_for('login'))
+    return render_template('reset_password_request.html',
+                           title='Reset Password', form=form)
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+    user = User.verify_reset_password_token(token)
+    if not user:
+        return redirect(url_for('index'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data)
+        db.session.commit()
+        flash('Your password has been reset.')
+        return redirect(url_for('login'))
+    return render_template('reset_password.html', form=form)
+
 
 @app.route('/logout')
 def logout():

@@ -10,8 +10,33 @@
 
 #toggle-view-switch {
     margin-bottom: 25px;
+
 }
 
+.iconify {
+    padding-bottom: 4px;
+}
+
+
+.nav-item-top {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: rgba(75, 119, 190, 1);
+
+    margin-right: 2rem;
+    padding-left: 2rem;
+}
+
+.nav-item-top > a {
+    
+    color:rgba(75, 119, 190, 1);
+}
+
+.nav-item-top > a:hover {
+    color: rgba(75, 119, 190, 1);
+    transform: translateY(-4px);
+    transition: 0.5s;
+}
 
 
 .top-breadcrumb {

@@ -2,6 +2,9 @@
 {% block nav_dash %}active{% endblock nav_dash %}
 
 {% block content %}
+
+<script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+
 <nav aria-label="breadcrumb" id="dashboard-crumb" class="top-breadcrumb">
     <ol class="breadcrumb breadcrumb-text-light breadcrumb-secondary text-white">
             <li class="breadcrumb-item"><a href="{{url_for('index')}}">Home</a></li>
@@ -11,11 +14,14 @@
         
         
 <ul class="nav justify-content-center" id="toggle-view-switch">
-  <li class="nav-item">
-    <a class="nav-link" aria-current="page" href="{{url_for('show_tasks_for_project', project_name=project_name)}}">Tabular-View</a>
+  <li class="nav-item-top">
+    <a class="nav-link" aria-current="page" href="{{url_for('show_tasks_for_project', project_name=project_name)}}">
+    <span class="iconify" data-icon="ci:list-plus" data-inline="false"></span>Tabular-View</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="{{url_for('show_grid_view_tasks_for_projects', project_name=project_name)}}"  tabindex="-1" aria-disabled="true">Grid-View</a>
+  <li class="nav-item-top">
+    <a class="nav-link disabled" href="{{url_for('show_grid_view_tasks_for_projects', project_name=project_name)}}"  tabindex="-1" aria-disabled="true">
+    <span class="iconify" data-icon="feather-grid" data-inline="false"></span>
+    Grid-View</a>
   </li>
 
 </ul>
@@ -29,10 +35,13 @@
    <div class="card border-0">
       <div class="card-header border-bottom d-flex align-items-center justify-content-between">
          <h2 class="fs-5 fw-bold mb-0">Team Members</h2>
-         <a href="#" class="btn btn-sm btn-primary">See All</a>
       </div>
       <div class="card-body">
-      
+      {% if member_names == {} %}
+        No Members Found!
+
+      {% else %}
+      {%endif%} 
          <ul class="list-group list-group-flush list my--3">
          
          {% for name in member_names %}
@@ -45,7 +54,8 @@
                   <div class="col-auto ms--2">
                      <h4 class="h6 mb-0"><a href="{{url_for('profile', username=name) }}">{{name}}</a></h4>
                      <div class="d-flex align-items-center">
-                        <small>Online</small>
+                        <small>Online ({{member_count[name]}} Tasks) </small>
+                        <div id="task-count"> {{member_count[name]}} </div>
                      </div>
                   </div>
 
@@ -54,7 +64,10 @@
                   <div class="col-auto ms--2">
                      <h4 class="h6 mb-0">{{name}}</h4>
                      <div class="d-flex align-items-center">
-                        <small>Invite this User!</small>
+                        <small>Invite this User! ({{member_count[name]}} Tasks) </small>
+                        
+                        <div id="task-count"> {{member_count[name]}} </div>
+
                      </div>
                   </div>
 
@@ -82,15 +95,20 @@
    </div>
    </div>
 
-
+                    
     <div class="col-12 mb-4">
         <div class="card border-0">
-            <div class="card-header border-bottom">
-                <h2 class="fs-5 fw-bold mb-1">Workload</h2>
+            <div class="card-header border-bottom d-flex align-items-center justify-content-between">
+                <h2 class="fs-5 fw-bold mb-0">Workload</h2>
+                <a href="{{url_for('show_tasks_for_project', project_name=project_name)}}" class="btn btn-sm btn-primary">Add Task</a>
+
             </div>
 
             <div class="card-body">
                 <div id="chart-weekly-sales">
+                    {% if member_names == {} %}
+                        No Members Found!
+                    {% else %}
                       <canvas id="myChart"></canvas>
                 
                 </div>
@@ -101,7 +119,7 @@
         </div>
     </div>
 </div>
-
+{% endif %}
 </div>
 
 
@@ -116,22 +134,32 @@ $(document).ready(function() {
 
 const element = document.getElementsByTagName("h4");
 
+const element_two =document.querySelectorAll('[id=task-count]');
+
+for (let i = 0; i < element_two.length; i++) {
+    element_two[i].style.display = "none";
+}
 
 var arr = [];
+var arr_Y_ax = [];
 
 for (let i = 0; i < element.length; i++) {
   arr.push(element[i].innerText);
 }
 
-console.log(arr);
+for (let i = 0; i < element_two.length; i++) {
+  arr_Y_ax.push(parseInt(element_two[i].innerText, 10));
+}
+
+console.log(arr_Y_ax);
 
 const labels = arr;
+const Y_ax = arr_Y_ax;
 
 const data = {
   labels: labels,
   datasets: [{
-    label: 'My First Dataset',
-    data: [2, 1, 1, 1],
+    data: Y_ax,
     backgroundColor: [
       'rgba(255, 99, 132, 0.2)',
       'rgba(255, 159, 64, 0.2)',
@@ -179,7 +207,7 @@ const config = {
           gridLines: {
                 lineWidth: 0
             },
-          barPercentage: 0.2
+          barPercentage: 0.1
 
         }
       ]
