@@ -25,6 +25,13 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 # Heroku has some issue with FLASK_DB.
 app = Flask(__name__)
 app.config['SECRET_KEY']= os.environ.get('SECRET_KEY') or 'sqlite:///' + os.path.join(basedir, 'app.db')
+app.config['ADMINS'] = ['garvitjairath@gmail.com']
+app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER') or 'smtp.googlemail.com'
+app.config['MAIL_PORT'] = int(os.environ.get('MAIL_PORT') or 25)
+app.config['MAIL_USE_TLS'] = 1
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME') or 'garvitjairath@gmail.com'
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD') 
+
 
 uri = os.getenv("DATABASE_URL")  # or other relevant config var
 if (uri != None):

@@ -78,6 +78,10 @@ a.editor-create {
     padding-left: 2rem;
 }
 
+.btn-close {
+    margin-right: 1.5rem !important;
+}
+
 .nav-item-top > a {
     
     color:rgba(75, 119, 190, 1);
@@ -87,4 +91,16 @@ a.editor-create {
     color: rgba(75, 119, 190, 1);
     transform: translateY(-4px);
     transition: 0.5s;
+}
+
+
+.md-form > label {
+    font-weight: 500;
+    margin-bottom: .5rem;
+}
+
+.modal-header {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: none;
 }

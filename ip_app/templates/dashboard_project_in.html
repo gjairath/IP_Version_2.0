@@ -37,29 +37,27 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header text-center">
-        <h4 class="modal-title w-100 font-weight-bold">New Task for: {{ project_name }} </h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h4 class="modal-title w-100 font-weight-bold">New Task for - {{ project_name }} </h4>
+<button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>        </button>
       </div>
       
       
       <div class="modal-body mx-3">
         <div class="md-form mb-5">
           <i class="fas fa-user prefix grey-text"></i>
-            <label for="task_name" class="form-control-label">Task Name: </label>
+            <label for="task_name" class="form-control-label">Task Name </label>
             <input type="text" class="form-control" id="task_name" placeholder="New Task for {{ project_name }}">
         </div>
 
         <div class="md-form mb-5">
           <i class="fas fa-envelope prefix grey-text"></i>
-            <label for="assigned_to" class="form-control-label" >Assigned To: </label>
+            <label for="assigned_to" class="form-control-label" >Assigned To </label>
             <input type="text" class="form-control" id="assigned_to" placeholder="Member Name">
         </div>
 
         <div class="md-form mb-5">
           <i class="fas fa-tag prefix grey-text"></i>
-            <label for="eta" class="form-control-label">ETA: </label>
+            <label for="eta" class="form-control-label">ETA </label>
                 <input type="text" placeholder="MM/DD/YYYY"
                     onfocus="(this.type='date')" class="form-control" id="eta"  >
 

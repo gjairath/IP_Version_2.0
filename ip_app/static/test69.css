@@ -11,14 +11,12 @@ body {
 .sidebar {
   position: fixed;
   top: 0;
-  /* rtl:raw:
-  right: 0;
-  */
+
   bottom: 0;
-  /* rtl:remove */
+
   left: 0;
-  z-index: 100; /* Behind the navbar */
-  padding: 48px 0 0; /* Height of navbar */
+  z-index: 100; 
+  padding: 48px 0 0; 
   box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
 }
 
@@ -65,8 +63,29 @@ body {
   padding-top: .75rem;
   padding-bottom: .75rem;
   font-size: 1rem;
-  background-color: rgba(0, 0, 0, .25);
-  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+  z-index: 15;
+}
+
+.p-0{
+    padding: 2px!important;
+}
+
+.pt-3{
+    padding-top: 3rem!important;
+}
+
+.black-bold{
+    color: rgba(0,0,0, 0.7);
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.px-3{
+    font-size: 0.9rem;
+}
+
+#sidebarMenu{
+    z-index: 10;
 }
 
 .navbar .navbar-toggler {
@@ -74,24 +93,9 @@ body {
   right: 1rem;
 }
 
-.navbar .form-control {
-  padding: .75rem 1rem;
-  border-width: 0;
-  border-radius: 0;
+#dboard-title {
+    
 }
-
-.form-control-dark {
-  color: #fff;
-  background-color: rgba(255, 255, 255, .1);
-  border-color: rgba(255, 255, 255, .1);
-}
-
-.form-control-dark:focus {
-  border-color: transparent;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
-}
-
-
 
 #main-section{
     margin-top: 20px;
