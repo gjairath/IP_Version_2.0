@@ -14,6 +14,27 @@ a.editor-create {
     text-align: center;
 }
 
+#submit-add-task {
+    background-color: #1f2937;
+    color: #fff;
+    width: 85%;
+    margin-top: 0px;
+}
+
+#submit-add-task:hover {
+    background-color: #161d27;
+    border-color: #161d27;
+}
+
+
+.modal-footer{
+    padding-bottom: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 0rem;
+}
+
 .dataTables_filter > label {
 
     background-image: url('/static/searchicon.png'); 
@@ -103,4 +124,8 @@ a.editor-create {
     padding-top: 2rem;
     padding-bottom: 2rem;
     border-bottom: none;
+}
+
+.modal-footer {
+    border-top: none;
 }
