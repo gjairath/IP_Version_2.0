@@ -1,3 +1,2 @@
 # wa
-Webapp [Deployed on Heroku] 
-No clever meme name found
+Webapp [Deployed on Heroku] - [No clever memey name found]
