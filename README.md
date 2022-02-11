@@ -1,5 +1,5 @@
 # IP - Version 2.0 
-A project management tool that isn't as saturated as the ones you see today. 
+A project management tool that isn't as saturated as the ones you see today. <br> The web app version of the IP Version 1.0 made with PyQt5 [https://github.com/gjairath/IP].
 
 # Description
 A project management tool that I wanted to call "Tuesday.com" but chose not to do so for obvious reasons. IP stands for intelligent planner.
